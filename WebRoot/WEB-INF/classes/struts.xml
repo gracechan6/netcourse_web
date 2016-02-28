@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE struts PUBLIC 
+	"-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+	"http://struts.apache.org/dtds/struts-2.1.7.dtd">
+<struts>
+<constant name="struts.action.excludePattern" value="/ReportServer/*,/confirmationServlet/*"/>
+	<constant name="struts.objectFactory.spring.autoWire" value="name" />
+	<constant name="struts.objectFactory" value="spring" />
+	<!-- 设置默认编码格式 -->  
+    <constant name="struts.i18n.encoding" value="UTF-8" />  
+    <!-- 设置最大上传文件是100M -->  
+   	<constant name= "struts.multipart.maxSize" value="104857600" />  	
+	
+	<package name="json" extends="struts-default,json-default" namespace="/">
+		<action name="getAllAnnounInfo" class="AnnounInfoAction" method="getAllAnnounInfo">
+			<result type="json">
+			<!-- 这里指定将被Struts2序列化的属性，该属性在action中必须有对应的getter方法 -->
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+	
+	</package>
+	
+	
+</struts>    

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="pers.nbu.netcourse.entity.AnnounInfo" table="tb_AnnounInfo" schema="dbo" catalog="AIOC" >
+        <id name="AnnNum" type="java.lang.Integer">
+            <column name="AnnNum" />
+            <generator class="identity"/>
+        </id>
+        <property name="AnnTitle" type="java.lang.String">
+            <column name="AnnTitle" length="100"/>
+        </property>
+        <property name="AnnCon" type="java.lang.String">
+            <column name="AnnCon" length="5000"/>
+        </property>
+        <property name="AnnUrl" type="java.lang.String">
+            <column name="AnnUrl" length="200"/>
+        </property>
+        <property name="AnnTime" type="java.lang.String">
+            <column name="AnnTime" length="50"/>
+        </property>
+		<property name="Treeid" type="java.lang.Integer">
+            <column name="Treeid" />
+        </property>
+        <property name="TeachNum" type="java.lang.String">
+            <column name="TeachNum" length="20"/>
+        </property>
+    </class>
+</hibernate-mapping>

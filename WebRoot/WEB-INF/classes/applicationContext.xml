@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+<!--  定义数据源   -->
+	<bean id="sqlserver"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName"
+			value="com.microsoft.sqlserver.jdbc.SQLServerDriver">
+		</property>
+		<property name="url"
+			value="jdbc:sqlserver://127.0.0.1:1433;databaseName=AIOC">
+		</property>
+		<property name="username" value="sa"></property>
+		<property name="password" value="123456"></property>
+	</bean>
+	
+	<!--  定义Hibernate的sessionFactory --> 
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<!--  指定数据源   --> 		
+		<property name="dataSource">
+			<ref bean="sqlserver" />
+		</property>
+		
+		<property name="hibernateProperties">
+			<props>
+				<!--  指定使用方言   -->			
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.SQLServerDialect
+				</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+		
+		<!--  指定Hibernate映射文件   --> 
+		<property name="mappingResources">
+			<list>
+			<!-- 用户库实体bean的映射配置 -->
+			<value>pers/nbu/netcourse/entity/AnnounInfo.hbm.xml</value>
+			</list>
+		</property>
+		
+	</bean>
+	  
+	<!-- 事务管理器 Bean -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<!-- 属性sessionFactory设置为前面的sessionFactory工厂Bean -->
+		<property name="sessionFactory">
+			<ref local="sessionFactory" />
+		</property>
+	</bean> 
+	
+	<!--  定义事务管理拦截器  --> 
+	<bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+	  <property name="transactionManager" ref="transactionManager" /> 
+	  <property name="transactionAttributes">
+	    <props>
+	      <prop key="get*">PROPAGATION_REQUIRED,readOnly</prop> 
+	      <prop key="*">PROPAGATION_REQUIRED</prop> 
+	    </props>
+	  </property>
+  	</bean>
+	
+	
+	
+    <!-- 以下为用户管理的依赖注入 -->
+	<bean id="AnnounInfoDao" class="pers.nbu.netcourse.daoImpl.AnnounInfoDaoImpl">
+		<property name="sessionFactory">
+			<ref local="sessionFactory" />
+		</property>
+    </bean>
+    <bean id="AnnounInfoService" class="pers.nbu.netcourse.serviceImpl.AnnounInfoServiceImpl">
+		<property name="announInfoDao">
+			<ref local="AnnounInfoDao" />
+		</property>
+    </bean>
+    <bean id="AnnounInfoAction" class="pers.nbu.netcourse.action.AnnounInfoAction" scope="prototype">
+		<property name="announInfoService" ref="AnnounInfoService" />
+	</bean>	
+	
+	<bean id="JsonAction" class="pers.nbu.netcourse.action.JsonAction" scope="prototype">
+	</bean>
+</beans>
+
+
+   
+	
