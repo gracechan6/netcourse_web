@@ -81,8 +81,14 @@
 		<property name="announInfoService" ref="AnnounInfoService" />
 	</bean>	
 	
-	<bean id="JsonAction" class="pers.nbu.netcourse.action.JsonAction" scope="prototype">
-	</bean>
+	<bean id="TaskAction" class="pers.nbu.netcourse.action.TaskAction" scope="prototype">
+		<property name="announInfoService" ref="AnnounInfoService" />
+	</bean>	
+	
+	<bean id="UserAction" class="pers.nbu.netcourse.action.UserAction" scope="prototype">
+		<property name="announInfoService" ref="AnnounInfoService" />
+	</bean>	
+	
 </beans>
 
 

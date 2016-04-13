@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="netcourse"
+  id="myeclipse.1446624384390"
+  context-root="/netcourse"
+  j2ee-spec="5.0"
+  archive="netcourse.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+
