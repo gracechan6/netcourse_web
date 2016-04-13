@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import pers.nbu.netcourse.dao.AnnounInfoDao;
 import pers.nbu.netcourse.entity.AnnShow;
+import pers.nbu.netcourse.entity.TaskManageShow;
 import pers.nbu.netcourse.entity.TaskShow;
 import pers.nbu.netcourse.util.ConnSQL;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -112,5 +113,43 @@ public class AnnounInfoDaoImpl extends HibernateDaoSupport implements AnnounInfo
 		return "false";
 	}
 
+	public ArrayList<TaskManageShow> getAllTaskManage(String num) {
+		String sql="select tb.TaskNum,Treeid,TeachName,TaskTitle,CourName,TaskTime,EndTime,OpusNum from "+
+					"( select TaskNum,tb_TaskInfo.Treeid,TeachName,TaskTitle,CourName,TaskTime,EndTime "+
+					 "  from tb_TaskInfo,tb_YTeacherInfo,tb_YCourseInfo,tb_TreeInfo,tb_YTeachActivity,tb_YStuCouRel "+
+					  "   where tb_TaskInfo.TeachNum=tb_YTeacherInfo.TeachNum and tb_YCourseInfo.CourNum=tb_TreeInfo.CourNum "+
+					  "    and tb_TaskInfo.TeachNum=tb_YTeachActivity.TeachNum and tb_TaskInfo.Treeid=tb_TreeInfo.Treeid "+
+					   "   and tb_YTeachActivity.CourNum=tb_TreeInfo.CourNum and tb_YStuCouRel.ActNum=tb_YTeachActivity.ActNum "+
+					  "    and TaskNum>0 and YorNVis='True'  and IsConfrim='True' and StuNum=" +num+
+					  "  ) tb left  join  tb_TStuOpus on tb.TaskNum=tb_TStuOpus.TaskNum and StuNum ="+num;
+	try {
+		connSql .openSQL();	
+		return getAllTaskMShow(connSql.executeQuery(sql));
+	} catch (Exception e) {
+		// TODO: handle exception
+	}finally{
+		connSql.closeSQL();
+	}
+	return null;
+	}
 
+	private ArrayList<TaskManageShow> getAllTaskMShow(ResultSet rs){
+		ArrayList<TaskManageShow> lists= new ArrayList<TaskManageShow>();
+		TaskManageShow taskManageShow ;
+		try {
+			if (rs.next()) {
+				do {
+					String start=rs.getString("TaskTime");
+					String end=rs.getString("EndTime");
+					taskManageShow = new TaskManageShow(rs.getInt("TaskNum"),rs.getInt("Treeid"),rs.getString("TeachName") ,rs.getString("TaskTitle"),rs.getString("CourName"), 
+							start.substring(0, 19),end.substring(0, 19),rs.getInt("OpusNum") );
+					lists.add(taskManageShow);
+				} while (rs.next());
+				return lists;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

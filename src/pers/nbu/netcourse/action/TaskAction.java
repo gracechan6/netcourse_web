@@ -9,6 +9,7 @@ import org.apache.struts2.json.annotations.JSON;
 
 import pers.nbu.netcourse.entity.AnnShow;
 import pers.nbu.netcourse.entity.AnnounInfo;
+import pers.nbu.netcourse.entity.TaskManageShow;
 import pers.nbu.netcourse.entity.TaskShow;
 import pers.nbu.netcourse.service.AnnounInfoService;
 
@@ -20,11 +21,13 @@ public class TaskAction extends ActionSupport{
 	 * 实体
 	 */
 	private Integer TaskNum;
+	private String UserNum;
 	
 	/**
 	 * 实体类
 	 */
 	private ArrayList<TaskShow> taskShowLists;
+	private ArrayList<TaskManageShow> taskMShowLists;
 	
 	/**
 	 * service
@@ -62,6 +65,14 @@ public class TaskAction extends ActionSupport{
 		TaskNum = taskNum;
 	}
 
+	public String getUserNum() {
+		return UserNum;
+	}
+
+	public void setUserNum(String userNum) {
+		UserNum = userNum;
+	}
+
 	public ArrayList<TaskShow> getTaskShowLists() {
 		return taskShowLists;
 	}
@@ -70,7 +81,15 @@ public class TaskAction extends ActionSupport{
 		this.taskShowLists = taskShowLists;
 	}
 	
-    /** 
+    public ArrayList<TaskManageShow> getTaskMShowLists() {
+		return taskMShowLists;
+	}
+
+	public void setTaskMShowLists(ArrayList<TaskManageShow> taskMShowLists) {
+		this.taskMShowLists = taskMShowLists;
+	}
+
+	/** 
      * Struts2序列化指定属性时，必须有该属性的getter方法，实际上，如果没有属性，而只有getter方法也是可以的 
      * @return 
      */  
@@ -91,6 +110,18 @@ public class TaskAction extends ActionSupport{
 		taskShowLists = announInfoService.getAllTask(getTaskNum());
 		dataMap.put("success", true);
 		dataMap.put("returnData", taskShowLists);
+		return SUCCESS;
+	}
+	
+	/**
+	 * 获取作业完成情况列表
+	 * @return
+	 */
+	public String getAllTaskManage(){
+		dataMap = new HashMap<String, Object>();
+		taskMShowLists = announInfoService.getAllTaskManage(getUserNum());
+		dataMap.put("success", true);
+		dataMap.put("returnData", taskMShowLists);
 		return SUCCESS;
 	}
 	

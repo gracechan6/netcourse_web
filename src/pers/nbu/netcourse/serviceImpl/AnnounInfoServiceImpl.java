@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import pers.nbu.netcourse.dao.AnnounInfoDao;
 import pers.nbu.netcourse.entity.AnnShow;
 import pers.nbu.netcourse.entity.AnnounInfo;
+import pers.nbu.netcourse.entity.TaskManageShow;
 import pers.nbu.netcourse.entity.TaskShow;
 import pers.nbu.netcourse.service.AnnounInfoService;
 
@@ -30,10 +31,11 @@ public class AnnounInfoServiceImpl implements AnnounInfoService{
 	}
 
 	public String loginVaild(String name, String pwd) {
-		// TODO Auto-generated method stub
 		return announInfoDao.loginVaild(name, pwd);
 	}
 
-
+	public ArrayList<TaskManageShow> getAllTaskManage(String num) {
+		return announInfoDao.getAllTaskManage(num);
+}
 	
 }
