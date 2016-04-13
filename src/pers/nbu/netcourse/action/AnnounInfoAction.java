@@ -25,7 +25,7 @@ public class AnnounInfoAction extends ActionSupport{
 	private String AnnTime;
 	private Integer Treeid;
 	private String TeachNum;
-	private String key = "Just see see"; 
+	private String key = ""; 
 	
 	/**
 	 * 实体类
@@ -44,7 +44,7 @@ public class AnnounInfoAction extends ActionSupport{
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
 	
-	private static final long serialVersionUID = 1L;
+//	private static final long serialVersionUID = 1L;
 	  
     //将会被Struts2序列化为JSON字符串的对象  
     private Map<String, Object> dataMap;  
@@ -134,23 +134,38 @@ public class AnnounInfoAction extends ActionSupport{
 	 * 所有方法如下：
 	 */
 	
-	
+	/**
+	 * 获取所有公告信息
+	 * @return
+	 */
 	public String getAllAnnounInfo(){
 		// dataMap中的数据将会被Struts2转换成JSON字符串，所以这里要先清空其中的数据 
 		//dataMap.clear();
 		dataMap = new HashMap<String, Object>();
-		announInfoLists = announInfoService.getAllAnnounInfo();
+		announInfoLists = announInfoService.getAllAnnounInfo(0);
+		dataMap.put("success", true);
+		dataMap.put("returnData", announInfoLists);
+		return SUCCESS;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getAnnounInfoByNum(){
+		dataMap = new HashMap<String, Object>();
+		announInfoLists = announInfoService.getAllAnnounInfo(getAnnNum());
 		dataMap.put("success", true);
 		dataMap.put("returnData", announInfoLists);
 		return SUCCESS;
 	}
 	
 	
-	//设置key属性不作为json的内容返回  
-    @JSON(serialize=true)  
-    public String getKey() {  
-        return key;  
-    } 
+//	//设置key属性不作为json的内容返回  
+//    @JSON(serialize=true)  
+//    public String getKey() {  
+//        return key;  
+//    } 
 	
 	
 
