@@ -9,25 +9,24 @@ import org.apache.struts2.json.annotations.JSON;
 
 import pers.nbu.netcourse.entity.AnnShow;
 import pers.nbu.netcourse.entity.AnnounInfo;
-import pers.nbu.netcourse.entity.TaskManageShow;
+import pers.nbu.netcourse.entity.AttendShow;
 import pers.nbu.netcourse.entity.TaskShow;
 import pers.nbu.netcourse.service.AnnounInfoService;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-public class TaskAction extends ActionSupport{
+public class AttendAction extends ActionSupport{
 	
 	/**
 	 * 实体
 	 */
-	private Integer TaskNum;
+	private Integer AttendNum;
 	private String UserNum;
 	
 	/**
 	 * 实体类
 	 */
-	private ArrayList<TaskShow> taskShowLists;
-	private ArrayList<TaskManageShow> taskMShowLists;
+	private ArrayList<AttendShow> attendShowLists;
 	
 	/**
 	 * service
@@ -57,12 +56,16 @@ public class TaskAction extends ActionSupport{
 		this.announInfoService = announInfoService;
 	}
 	
-	public Integer getTaskNum() {
-		return TaskNum;
+	
+
+
+	
+    public Integer getAttendNum() {
+		return AttendNum;
 	}
 
-	public void setTaskNum(Integer taskNum) {
-		TaskNum = taskNum;
+	public void setAttendNum(Integer attendNum) {
+		AttendNum = attendNum;
 	}
 
 	public String getUserNum() {
@@ -73,20 +76,12 @@ public class TaskAction extends ActionSupport{
 		UserNum = userNum;
 	}
 
-	public ArrayList<TaskShow> getTaskShowLists() {
-		return taskShowLists;
+	public ArrayList<AttendShow> getAttendShowLists() {
+		return attendShowLists;
 	}
 
-	public void setTaskShowLists(ArrayList<TaskShow> taskShowLists) {
-		this.taskShowLists = taskShowLists;
-	}
-	
-    public ArrayList<TaskManageShow> getTaskMShowLists() {
-		return taskMShowLists;
-	}
-
-	public void setTaskMShowLists(ArrayList<TaskManageShow> taskMShowLists) {
-		this.taskMShowLists = taskMShowLists;
+	public void setAttendShowLists(ArrayList<AttendShow> attendShowLists) {
+		this.attendShowLists = attendShowLists;
 	}
 
 	/** 
@@ -105,41 +100,11 @@ public class TaskAction extends ActionSupport{
 	 * 获取作业列表
 	 * @return
 	 */
-	public String getAllTask(){
+	public String getAttend(){
 		dataMap = new HashMap<String, Object>();
-		taskShowLists = announInfoService.getAllTask(getTaskNum());
+		attendShowLists = announInfoService.getAttend(getUserNum(),getAttendNum());
 		dataMap.put("success", true);
-		dataMap.put("returnData", taskShowLists);
-		return SUCCESS;
-	}
-	
-	/**
-	 * 获取作业完成情况列表
-	 * @return
-	 */
-	public String getAllTaskManage(){
-		dataMap = new HashMap<String, Object>();
-		taskMShowLists = announInfoService.getAllTaskManage(getUserNum(),getTaskNum());
-		dataMap.put("success", true);
-		dataMap.put("returnData", taskMShowLists);
-		return SUCCESS;
-	}
-	
-	/**
-	 * 更新作业列表
-	 * @return
-	 */
-	public String updateTaskManage(){
-		dataMap = new HashMap<String, Object>();
-		int n=announInfoService.updateTaskManage(getUserNum(),getTaskNum());
-		if(n>0){
-			dataMap.put("success", true);
-			dataMap.put("OptNum", n);
-			dataMap.put("TaskNum", getTaskNum());
-		}
-		else{
-			dataMap.put("success", false);
-		}
+		dataMap.put("returnData", attendShowLists);
 		return SUCCESS;
 	}
 	

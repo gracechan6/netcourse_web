@@ -1,11 +1,15 @@
 package pers.nbu.netcourse.daoImpl;
 
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import pers.nbu.netcourse.dao.AnnounInfoDao;
 import pers.nbu.netcourse.entity.AnnShow;
+import pers.nbu.netcourse.entity.AttendShow;
 import pers.nbu.netcourse.entity.TaskManageShow;
 import pers.nbu.netcourse.entity.TaskShow;
 import pers.nbu.netcourse.util.ConnSQL;
@@ -154,7 +158,7 @@ public class AnnounInfoDaoImpl extends HibernateDaoSupport implements AnnounInfo
 	}
 	
 	public int updateTaskManage(String num, int tnum) {
-		String sql="select a.TaskNum,a.Treeid,a.TeachName,a.TaskTitle,a.CourName,a.TaskTime,a.EndTime,a.OpusNum from " +
+		String sql="select a.OpusNum from " +
 				"(select tb.TaskNum,Treeid,TeachName,TaskTitle,CourName,TaskTime,EndTime,OpusNum from " +
 				"( select TaskNum,tb_TaskInfo.Treeid,TeachName,TaskTitle,CourName,TaskTime,EndTime " +
 				"from tb_TaskInfo,tb_YTeacherInfo,tb_YCourseInfo,tb_TreeInfo,tb_YTeachActivity,tb_YStuCouRel " +
@@ -162,6 +166,68 @@ public class AnnounInfoDaoImpl extends HibernateDaoSupport implements AnnounInfo
 				"and tb_TaskInfo.TeachNum=tb_YTeachActivity.TeachNum and tb_TaskInfo.Treeid=tb_TreeInfo.Treeid " +
 				"and tb_YTeachActivity.CourNum=tb_TreeInfo.CourNum and tb_YStuCouRel.ActNum=tb_YTeachActivity.ActNum " +
 				"and TaskNum>0 and YorNVis='True'  and IsConfrim='True' and StuNum="+num+ " ) tb left  join  tb_TStuOpus on tb.TaskNum=tb_TStuOpus.TaskNum and StuNum ="+num+ " ) a where a.TaskNum="+tnum;
+		try {
+			connSql .openSQL();	
+			ResultSet rs= connSql.executeQuery(sql);
+			if (rs.next()) {
+				do {
+					return rs.getInt("OpusNum") ;
+				} while (rs.next());
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally{
+			connSql.closeSQL();
+		}
+		
 		return 0;
+	}
+	
+	private ArrayList<AttendShow> getAttendShow(ResultSet rs){
+		ArrayList<AttendShow> lists= new ArrayList<AttendShow>();
+		AttendShow attendShow ;
+		try {
+			if (rs.next()) {
+				do {					
+					attendShow = new AttendShow(rs.getInt("AttdenceNum"),rs.getInt("ActNum"),rs.getString("PlaceName"),rs.getString("CourName"),rs.getString("TeachName") ,
+							rs.getString("AttdenceWeek"),rs.getString("StatusTime") ,rs.getString("StaName"),rs.getString("Status"),rs.getString("AttdenceClass"));
+					lists.add(attendShow);
+				} while (rs.next());
+				return lists;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	public ArrayList<AttendShow> getAttend(String num, int tnum) {
+		String sql="select TeaAttdenceInfo.AttdenceNum,tb_YTeachActivity.ActNum,PlaceName," +
+				"CourName,TeachName,AttdenceWeek,StatusTime,StaName,Status,AttdenceClass " +
+				"from TeaStatus, tb_YTeachActivity ,TeaAttdenceAdmin,TeaAttdenceInfo,tb_YTeacherInfo,tb_YCourseInfo " +
+				"where tb_YTeachActivity.ActNum=TeaAttdenceAdmin.ActNum and TeaAttdenceAdmin.AttOpen =TeaStatus.AttOpen " +
+				"and TeaAttdenceAdmin.AttdenceNum=TeaAttdenceInfo.AttdenceNum and tb_YTeacherInfo.TeachNum=TeaAttdenceAdmin.TeachNum " +
+				"and tb_YCourseInfo.CourNum=tb_YTeachActivity.CourNum  and TeaAttdenceAdmin.AttdenceClass<>'¿ÎÌÃ¿¼ÇÚ'  " +
+				"and TeaAttdenceInfo.StuNum="+num+"  and TeaStatus.StaName<>'Î´¿ªÊ¼¿¼ÇÚ' and TeaAttdenceInfo.AttdenceNum> " +tnum+
+				" order by AttdenceNum asc";
+		
+		try {
+			connSql .openSQL();	
+			return getAttendShow(connSql.executeQuery(sql));
+		} catch (Exception e) {
+		}finally{
+			connSql.closeSQL();
+		}
+		
+		return null;
+	}
+	
+	public Boolean updateAttend(String num, int tnum) {
+		return false;
+	}
+	
+	public Boolean updateServerAttend(String num, int tnum) {
+		return false;
 	}
 }

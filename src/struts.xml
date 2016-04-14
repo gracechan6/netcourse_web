@@ -46,6 +46,27 @@
 			</result>
 		</action>
 		
+		<action name="getAttend" class="AttendAction" method="getAttend">
+			<result type="json">
+			<!-- 这里指定将被Struts2序列化的属性，该属性在action中必须有对应的getter方法 -->
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
+		<action name="updateServerAttend" class="AttendAction" method="updateServerAttend">
+			<result type="json">
+			<!-- 这里指定将被Struts2序列化的属性，该属性在action中必须有对应的getter方法 -->
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
+		<action name="updateAttend" class="AttendAction" method="updateAttend">
+			<result type="json">
+			<!-- 这里指定将被Struts2序列化的属性，该属性在action中必须有对应的getter方法 -->
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
 		<action name="loginVaild" class="UserAction" method="loginVaild">
 			<result type="json">
 			<!-- 这里指定将被Struts2序列化的属性，该属性在action中必须有对应的getter方法 -->
