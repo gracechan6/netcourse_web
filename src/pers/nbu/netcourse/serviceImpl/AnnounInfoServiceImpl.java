@@ -36,6 +36,9 @@ public class AnnounInfoServiceImpl implements AnnounInfoService{
 
 	public ArrayList<TaskManageShow> getAllTaskManage(String num,int tnum) {
 		return announInfoDao.getAllTaskManage(num,tnum);
-}
+	}
 	
+	public int updateTaskManage(String num, int tnum) {
+		return announInfoDao.updateTaskManage(num, tnum);
+	}
 }

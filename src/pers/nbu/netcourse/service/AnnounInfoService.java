@@ -13,4 +13,5 @@ public interface AnnounInfoService {
 	public ArrayList<TaskShow> getAllTask(int num);
 	public String loginVaild(String name,String pwd);
 	public ArrayList<TaskManageShow> getAllTaskManage(String num,int tnum);
+	public int updateTaskManage(String num,int tnum);
 }

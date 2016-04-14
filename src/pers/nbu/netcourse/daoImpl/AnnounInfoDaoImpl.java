@@ -122,15 +122,15 @@ public class AnnounInfoDaoImpl extends HibernateDaoSupport implements AnnounInfo
 					   "   and tb_YTeachActivity.CourNum=tb_TreeInfo.CourNum and tb_YStuCouRel.ActNum=tb_YTeachActivity.ActNum "+
 					  "    and TaskNum>"+tnum+" and YorNVis='True'  and IsConfrim='True' and StuNum=" +num+
 					  "  ) tb left  join  tb_TStuOpus on tb.TaskNum=tb_TStuOpus.TaskNum and StuNum ="+num;
-	try {
-		connSql .openSQL();	
-		return getAllTaskMShow(connSql.executeQuery(sql));
-	} catch (Exception e) {
-		// TODO: handle exception
-	}finally{
-		connSql.closeSQL();
-	}
-	return null;
+		try {
+			connSql .openSQL();	
+			return getAllTaskMShow(connSql.executeQuery(sql));
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally{
+			connSql.closeSQL();
+		}
+		return null;
 	}
 
 	private ArrayList<TaskManageShow> getAllTaskMShow(ResultSet rs){
@@ -151,5 +151,17 @@ public class AnnounInfoDaoImpl extends HibernateDaoSupport implements AnnounInfo
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public int updateTaskManage(String num, int tnum) {
+		String sql="select a.TaskNum,a.Treeid,a.TeachName,a.TaskTitle,a.CourName,a.TaskTime,a.EndTime,a.OpusNum from " +
+				"(select tb.TaskNum,Treeid,TeachName,TaskTitle,CourName,TaskTime,EndTime,OpusNum from " +
+				"( select TaskNum,tb_TaskInfo.Treeid,TeachName,TaskTitle,CourName,TaskTime,EndTime " +
+				"from tb_TaskInfo,tb_YTeacherInfo,tb_YCourseInfo,tb_TreeInfo,tb_YTeachActivity,tb_YStuCouRel " +
+				"where tb_TaskInfo.TeachNum=tb_YTeacherInfo.TeachNum and tb_YCourseInfo.CourNum=tb_TreeInfo.CourNum " +
+				"and tb_TaskInfo.TeachNum=tb_YTeachActivity.TeachNum and tb_TaskInfo.Treeid=tb_TreeInfo.Treeid " +
+				"and tb_YTeachActivity.CourNum=tb_TreeInfo.CourNum and tb_YStuCouRel.ActNum=tb_YTeachActivity.ActNum " +
+				"and TaskNum>0 and YorNVis='True'  and IsConfrim='True' and StuNum="+num+ " ) tb left  join  tb_TStuOpus on tb.TaskNum=tb_TStuOpus.TaskNum and StuNum ="+num+ " ) a where a.TaskNum="+tnum;
+		return 0;
 	}
 }

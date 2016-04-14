@@ -125,6 +125,23 @@ public class TaskAction extends ActionSupport{
 		return SUCCESS;
 	}
 	
+	/**
+	 * 更新作业列表
+	 * @return
+	 */
+	public String updateTaskManage(){
+		dataMap = new HashMap<String, Object>();
+		int n=announInfoService.updateTaskManage(getUserNum(),getTaskNum());
+		if(n>0){
+			dataMap.put("success", true);
+			dataMap.put("OptNum", n);
+		}
+		else{
+			dataMap.put("success", false);
+		}
+		return SUCCESS;
+	}
+	
 	
 //	//设置key属性不作为json的内容返回  
 //    @JSON(serialize=true)  
