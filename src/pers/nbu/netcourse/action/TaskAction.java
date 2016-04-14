@@ -119,7 +119,7 @@ public class TaskAction extends ActionSupport{
 	 */
 	public String getAllTaskManage(){
 		dataMap = new HashMap<String, Object>();
-		taskMShowLists = announInfoService.getAllTaskManage(getUserNum());
+		taskMShowLists = announInfoService.getAllTaskManage(getUserNum(),getTaskNum());
 		dataMap.put("success", true);
 		dataMap.put("returnData", taskMShowLists);
 		return SUCCESS;

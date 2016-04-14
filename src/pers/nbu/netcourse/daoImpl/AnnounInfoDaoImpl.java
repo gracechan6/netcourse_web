@@ -113,14 +113,14 @@ public class AnnounInfoDaoImpl extends HibernateDaoSupport implements AnnounInfo
 		return "false";
 	}
 
-	public ArrayList<TaskManageShow> getAllTaskManage(String num) {
+	public ArrayList<TaskManageShow> getAllTaskManage(String num,int tnum) {
 		String sql="select tb.TaskNum,Treeid,TeachName,TaskTitle,CourName,TaskTime,EndTime,OpusNum from "+
 					"( select TaskNum,tb_TaskInfo.Treeid,TeachName,TaskTitle,CourName,TaskTime,EndTime "+
 					 "  from tb_TaskInfo,tb_YTeacherInfo,tb_YCourseInfo,tb_TreeInfo,tb_YTeachActivity,tb_YStuCouRel "+
 					  "   where tb_TaskInfo.TeachNum=tb_YTeacherInfo.TeachNum and tb_YCourseInfo.CourNum=tb_TreeInfo.CourNum "+
 					  "    and tb_TaskInfo.TeachNum=tb_YTeachActivity.TeachNum and tb_TaskInfo.Treeid=tb_TreeInfo.Treeid "+
 					   "   and tb_YTeachActivity.CourNum=tb_TreeInfo.CourNum and tb_YStuCouRel.ActNum=tb_YTeachActivity.ActNum "+
-					  "    and TaskNum>0 and YorNVis='True'  and IsConfrim='True' and StuNum=" +num+
+					  "    and TaskNum>"+tnum+" and YorNVis='True'  and IsConfrim='True' and StuNum=" +num+
 					  "  ) tb left  join  tb_TStuOpus on tb.TaskNum=tb_TStuOpus.TaskNum and StuNum ="+num;
 	try {
 		connSql .openSQL();	

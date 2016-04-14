@@ -34,8 +34,8 @@ public class AnnounInfoServiceImpl implements AnnounInfoService{
 		return announInfoDao.loginVaild(name, pwd);
 	}
 
-	public ArrayList<TaskManageShow> getAllTaskManage(String num) {
-		return announInfoDao.getAllTaskManage(num);
+	public ArrayList<TaskManageShow> getAllTaskManage(String num,int tnum) {
+		return announInfoDao.getAllTaskManage(num,tnum);
 }
 	
 }
