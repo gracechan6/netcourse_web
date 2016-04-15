@@ -22,6 +22,7 @@ public class AttendAction extends ActionSupport{
 	 */
 	private Integer AttendNum;
 	private String UserNum;
+	private String ip;
 	
 	/**
 	 * 实体类
@@ -56,10 +57,6 @@ public class AttendAction extends ActionSupport{
 		this.announInfoService = announInfoService;
 	}
 	
-	
-
-
-	
     public Integer getAttendNum() {
 		return AttendNum;
 	}
@@ -74,6 +71,14 @@ public class AttendAction extends ActionSupport{
 
 	public void setUserNum(String userNum) {
 		UserNum = userNum;
+	}
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
 	}
 
 	public ArrayList<AttendShow> getAttendShowLists() {
@@ -97,7 +102,7 @@ public class AttendAction extends ActionSupport{
 	 */
 	
 	/**
-	 * 获取作业列表
+	 * 获取考勤列表
 	 * @return
 	 */
 	public String getAttend(){
@@ -108,6 +113,39 @@ public class AttendAction extends ActionSupport{
 		return SUCCESS;
 	}
 	
+	/**
+	 * 获取某条考勤信息
+	 * @return
+	 */
+	public String updateAttend(){
+		dataMap = new HashMap<String, Object>();
+		attendShowLists = announInfoService.updateAttend(getUserNum(),getAttendNum());
+		if(attendShowLists!=null && attendShowLists.size()>0){
+			dataMap.put("success", true);
+			dataMap.put("staName", attendShowLists.get(0).getStaName());
+			dataMap.put("AttendNum", getAttendNum());
+			dataMap.put("status", attendShowLists.get(0).getStatus());
+		}else {
+			dataMap.put("success", false);
+		}
+		return SUCCESS;
+	}
+	
+	/**
+	 * 更新服务器端考勤信息
+	 * @return
+	 */
+	public String updateServerAttend(){
+		dataMap = new HashMap<String, Object>();
+		if(announInfoService.updateServerAttend(getUserNum(),getAttendNum(),getIp())){
+			dataMap.put("success", true);
+		}
+		else {
+			dataMap.put("success", false);
+		}
+		return SUCCESS;
+	}
+	
 	
 //	//设置key属性不作为json的内容返回  
 //    @JSON(serialize=true)  
@@ -115,6 +153,4 @@ public class AttendAction extends ActionSupport{
 //        return key;  
 //    } 
 	
-	
-
 }

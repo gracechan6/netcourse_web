@@ -47,10 +47,10 @@ public class AnnounInfoServiceImpl implements AnnounInfoService{
 		return announInfoDao.getAttend(num, tnum);
 	}
 	
-	public Boolean updateAttend(String num, int tnum) {
+	public ArrayList<AttendShow> updateAttend(String num, int tnum) {
 		return announInfoDao.updateAttend(num, tnum);
 	}
-	public Boolean updateServerAttend(String num, int tnum) {
-		return announInfoDao.updateServerAttend(num, tnum);
+	public Boolean updateServerAttend(String num, int tnum,String ip) {
+		return announInfoDao.updateServerAttend(num, tnum,ip);
 	}
 }

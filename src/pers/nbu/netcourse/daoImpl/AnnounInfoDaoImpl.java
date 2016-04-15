@@ -223,11 +223,38 @@ public class AnnounInfoDaoImpl extends HibernateDaoSupport implements AnnounInfo
 		return null;
 	}
 	
-	public Boolean updateAttend(String num, int tnum) {
-		return false;
+	public ArrayList<AttendShow> updateAttend(String num, int tnum) {
+		String sql="select TeaAttdenceInfo.AttdenceNum,tb_YTeachActivity.ActNum,PlaceName," +
+				"CourName,TeachName,AttdenceWeek,StatusTime,StaName,Status,AttdenceClass " +
+				"from TeaStatus, tb_YTeachActivity ,TeaAttdenceAdmin,TeaAttdenceInfo,tb_YTeacherInfo,tb_YCourseInfo " +
+				"where tb_YTeachActivity.ActNum=TeaAttdenceAdmin.ActNum and TeaAttdenceAdmin.AttOpen =TeaStatus.AttOpen " +
+				"and TeaAttdenceAdmin.AttdenceNum=TeaAttdenceInfo.AttdenceNum and tb_YTeacherInfo.TeachNum=TeaAttdenceAdmin.TeachNum " +
+				"and tb_YCourseInfo.CourNum=tb_YTeachActivity.CourNum  and TeaAttdenceAdmin.AttdenceClass<>'¿ÎÌÃ¿¼ÇÚ'  " +
+				"and TeaAttdenceInfo.StuNum="+num+"  and TeaStatus.StaName<>'Î´¿ªÊ¼¿¼ÇÚ' and TeaAttdenceInfo.AttdenceNum= " +tnum+
+				" order by AttdenceNum asc";
+		
+		try {
+			connSql .openSQL();	
+			return getAttendShow(connSql.executeQuery(sql));
+		} catch (Exception e) {
+		}finally{
+			connSql.closeSQL();
+		}
+		
+		return null;
 	}
 	
-	public Boolean updateServerAttend(String num, int tnum) {
+	public Boolean updateServerAttend(String num, int tnum,String ip) {
+		String sql="UPDATE TeaAttdenceInfo SET Status='ÒÑµ½',StuAsNum=1,ip="+ip+" WHERE StuNum="+num+ " and AttdenceNum="+tnum;
+		try {
+			connSql .openSQL();	
+			if (connSql.executeUpdate(sql)>0) {
+				return true;
+			}
+		} catch (Exception e) {
+		}finally{
+			connSql.closeSQL();
+		}
 		return false;
 	}
 }

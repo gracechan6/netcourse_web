@@ -47,19 +47,22 @@ and tb_YCourseInfo.CourNum=tb_YTeachActivity.CourNum  and TeaAttdenceAdmin.Attde
 and TeaAttdenceInfo.StuNum='0001'  and TeaStatus.StaName<>'未开始考勤' and TeaAttdenceInfo.AttdenceNum>0
 order by AttdenceNum asc
 
-//学生查看自己的考勤记录
+//学生查看自己的某条考勤记录情况
 select TeaAttdenceInfo.AttdenceNum,tb_YTeachActivity.ActNum,PlaceName,
-CourName,TeachName,AttdenceWeek,StatusTime,StaName,Status,AttdenceClass   
+CourName,TeachName,AttdenceWeek,StatusTime,StaName,Status,AttdenceClass,ip   
 from TeaStatus, tb_YTeachActivity ,TeaAttdenceAdmin,TeaAttdenceInfo,tb_YTeacherInfo,tb_YCourseInfo  
 where tb_YTeachActivity.ActNum=TeaAttdenceAdmin.ActNum and TeaAttdenceAdmin.AttOpen =TeaStatus.AttOpen 
 and TeaAttdenceAdmin.AttdenceNum=TeaAttdenceInfo.AttdenceNum and tb_YTeacherInfo.TeachNum=TeaAttdenceAdmin.TeachNum  
 and tb_YCourseInfo.CourNum=tb_YTeachActivity.CourNum  and TeaAttdenceAdmin.AttdenceClass<>'课堂考勤'  
-and TeaAttdenceInfo.StuNum='0001'  and TeaStatus.StaName<>'未开始考勤' and TeaAttdenceInfo.AttdenceNum=1005
+and TeaAttdenceInfo.StuNum='0001'  and TeaStatus.StaName<>'未开始考勤' and TeaAttdenceInfo.AttdenceNum=1004
 order by AttdenceNum asc
 
-//学生考勤签到  手机端只要传 StuNum和AttdenceNum这两个参数即可
-UPDATE TeaAttdenceInfo SET Status='已到',StuAsNum=1,ip='mobile' WHERE StuNum='0001' and AttdenceNum='1006'
+//学生考勤签到  手机端只要传 StuNum和AttdenceNum  ip即可
+UPDATE TeaAttdenceInfo SET Status='缺课',StuAsNum=0,ip='mobile' WHERE StuNum='0001' and AttdenceNum='1007'
 
+//考勤测试
+insert into TeaAttdenceAdmin values(1007,'2016-04-15 11:48:26','171123',20025,1,'机房考勤','第十二周','默认机房',NULL);
+insert into TeaAttdenceInfo values(1007,'0001','缺课',NULL,0,NULL);
 //教师发布出勤后 学生缺课记录添加
 exec AddStuAtt '20030','1067'
 

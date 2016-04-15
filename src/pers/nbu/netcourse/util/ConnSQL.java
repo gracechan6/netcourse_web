@@ -59,8 +59,6 @@ public class ConnSQL {
 	public void openSQL() {
 		String JDriver="com.microsoft.sqlserver.jdbc.SQLServerDriver";
 		String connectDB = "jdbc:sqlserver://127.0.0.1:1433;databaseName=AIOC";
-		/*Connection con = null;
-		Statement stmt = null;*/
 		try {
 			Class.forName(JDriver);
 		} 
@@ -86,10 +84,20 @@ public class ConnSQL {
 		try {
 			stmt.execute(SQL);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			System.err.println(e.getMessage());
 		}
 	}
+	
+	public int executeUpdate(String SQL) {
+		int i=0;
+		try {
+			i = stmt.executeUpdate(SQL);
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+		}
+		return i;
+	}
+	
 	public ResultSet executeQuery(String SQL) {
 		ResultSet rs = null;
 		try {
