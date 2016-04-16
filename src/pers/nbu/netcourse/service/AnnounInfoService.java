@@ -17,9 +17,13 @@ public interface AnnounInfoService {
 	public int updateTaskManage(String num,int tnum);
 	
 	public ArrayList<AttendShow> getAttend(String num,int tnum);
-	public ArrayList<AttendShow> updateAttend(String num,int tnum);//从服务器获取数据来更新本地数据
-	public Boolean updateServerAttend(String num,int tnum,String ip);//更新服务器数据
+	public ArrayList<AttendShow> updateAttend(String num,int tnum);
+	public Boolean updateServerAttend(String num,int tnum,String ip);
 	
 	
 	public String loginVaildT(String name,String pwd);
+	public ArrayList<AnnounInfo> getAnn(int num,String tnum);
+	public Boolean delAnn(int num);
+	public Boolean updateAnn(int num,String title,String con,String time);
+	public int addAnn(AnnounInfo announInfo);
 }

@@ -54,7 +54,7 @@ public class ConnSQL {
 	
 	
 	/**
-	 * ´ò¿ªÊı¾İ¿âÁ¬½Ó
+	 * æ‰“å¼€
 	 */
 	public void openSQL() {
 		String JDriver="com.microsoft.sqlserver.jdbc.SQLServerDriver";
@@ -63,22 +63,22 @@ public class ConnSQL {
 			Class.forName(JDriver);
 		} 
 		catch (ClassNotFoundException e) {
-			System.out.println("Êı¾İ¿â¼ÓÔØÊ§°Ü");
+			System.out.println("è¿æ¥å¤±è´¥");
 			System.exit(0);
 		}
 		try {
-			System.out.println("Êı¾İ¿âÁ¬½Ó³É¹¦");
+			System.out.println("å¼€å§‹è¿æ¥æ•°æ®åº“");
 			con = DriverManager.getConnection(connectDB, user, password);
 			stmt = con.createStatement();
 		} 
 		catch (SQLException e) {
-			System.out.println("Êı¾İ¿âÁ¬½Ó³ö´í");
+			System.out.println("è¿æ¥å¤±è´¥");
 		}
 	}
 	
 	
 	/**
-	 * Ö´ĞĞSQLÓï¾ä
+	 * Ö´ï¿½ï¿½SQLï¿½ï¿½ï¿½
 	 */
 	public void execute(String SQL) {
 		try {
@@ -98,6 +98,7 @@ public class ConnSQL {
 		return i;
 	}
 	
+	
 	public ResultSet executeQuery(String SQL) {
 		ResultSet rs = null;
 		try {
@@ -110,7 +111,7 @@ public class ConnSQL {
 	}
 	
 	/**
-	 * ¹Ø±ÕÊı¾İ¿âÁ¬½Ó
+	 * å…³é—­æ•°æ®åº“
 	 */
 	public void closeSQL()
 	{
@@ -118,7 +119,7 @@ public class ConnSQL {
 			stmt.close();
 			con.close();
 		} catch (SQLException e) {
-			System.out.println("Êı¾İ¿âÁ¬½Ó³ö´í");
+			System.out.println("å…³é—­æ•°æ®åº“å¤±è´¥");
 		}
 	}
 	

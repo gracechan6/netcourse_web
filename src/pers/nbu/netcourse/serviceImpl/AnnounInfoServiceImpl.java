@@ -58,4 +58,21 @@ public class AnnounInfoServiceImpl implements AnnounInfoService{
 	public String loginVaildT(String name, String pwd) {
 		return announInfoDao.loginVaildT(name, pwd);
 	}
+	
+	public ArrayList<AnnounInfo> getAnn(int num,String tnum) {
+		return announInfoDao.getAnn(num,tnum);
+	}
+	
+	public int addAnn(AnnounInfo announInfo) {
+		return announInfoDao.addAnn(announInfo);
+	}
+	
+	public Boolean delAnn(int num) {
+		return announInfoDao.delAnn(num);
+	}
+	public Boolean updateAnn(int num, String title, String con, String time) {
+		return announInfoDao.updateAnn(num, title, con, time);
+	}
+	
+
 }

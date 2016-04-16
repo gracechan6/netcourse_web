@@ -78,7 +78,6 @@ select * from tb_Taskinfo
 select right(IDNum,6),stuNum from tb_YStuInfo where stuNUm='154175116'
 130930199611190024
 
-
 select * from tb_YStuInfo 
 
 --教师
@@ -92,12 +91,20 @@ select * from tb_YTeacherInfo where TeachNum='171123' and TeachPws='666666'
 //公告
 --该教师所拥有的课程   公告用 Treeid  CourNum  CourName
 select a.Treeid,a.CourNum,b.CourName  from tb_TreeInfo a,tb_YcourseInfo b where a.courNum=b.courNum and TeachNum='171123'and a.depth=0 and a.TreeName='公告区'
+select * from tb_AnnounInfo where AnnType='公告' and TeachNum='171123' and AnnNum>0
 插入
-insert into tb_AnnounInfo (AnnTitle,AnnCon,AnnUrl,AnnTime,TeachNum,Treeid,AnnType,TreeType) values (@AnnTitle,@AnnCon,@AnnUrl,@AnnTime,@TeachNum,@Treeid,@AnnType,@TreeType)
+insert into tb_AnnounInfo (AnnTitle,AnnCon,AnnUrl,AnnTime,TeachNum,Treeid,AnnType,Treeid) values (@AnnTitle,@AnnCon,@AnnUrl,@AnnTime,@TeachNum,@Treeid,@AnnType,@TreeType)
+
+insert into tb_AnnounInfo (AnnTitle,AnnCon,AnnUrl,AnnTime,TeachNum,Treeid,AnnType) values ('nihao你好','sad阿斯达撒',NULL,'2016-04-06 15:23:23','171123',620,'公告')
+select top 1 AnnNum from tb_AnnounInfo order by AnnNum desc
 删除
-delete from tb_AnnounInfo where AnnNum='121'
+delete from tb_AnnounInfo where AnnNum='126'
+更新
+update tb_AnnounInfo SET AnnTitle='sad111111',AnnCon='sadsad',AnnTime='2016-04-12 11:01:01' where AnnNum='111'
 查找（本地，服务器）
 select * from tb_AnnounInfo where TeachNum='171123'
+
+
 
 --任务区获取相应章节下任务id
 

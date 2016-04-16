@@ -74,12 +74,38 @@
 			</result>
 		</action>
 		
+		<!-- 教师端 -->
 		<action name="loginVaildT" class="UserAction" method="loginVaildT">
 			<result type="json">
 			<!-- 这里指定将被Struts2序列化的属性，该属性在action中必须有对应的getter方法 -->
 				<param name="root">dataMap</param>
 			</result>
 		</action>
+		
+		<action name="getAnn" class="AnnounInfoAction" method="getAnn">
+			<result type="json">
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
+		<action name="delAnn" class="AnnounInfoAction" method="delAnn">
+			<result type="json">
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
+		<action name="updateAnn" class="AnnounInfoAction" method="updateAnn">
+			<result type="json">
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
+		<action name="addAnn" class="AnnounInfoAction" method="addAnn">
+			<result type="json">
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
 	
 	</package>
 	

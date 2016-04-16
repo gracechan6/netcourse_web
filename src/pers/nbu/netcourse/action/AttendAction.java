@@ -17,16 +17,12 @@ import com.opensymphony.xwork2.ActionSupport;
 
 public class AttendAction extends ActionSupport{
 	
-	/**
-	 * 实体
-	 */
+
 	private Integer AttendNum;
 	private String UserNum;
 	private String ip;
 	
-	/**
-	 * 实体类
-	 */
+
 	private ArrayList<AttendShow> attendShowLists;
 	
 	/**
@@ -34,15 +30,13 @@ public class AttendAction extends ActionSupport{
 	 */
 	private AnnounInfoService announInfoService;
 	
-	/**
-	 * Json配置
-	 */
+
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
 	
 //	private static final long serialVersionUID = 1L;
 	  
-    //将会被Struts2序列化为JSON字符串的对象  
+
     private Map<String, Object> dataMap;  
 	
 	/**
@@ -89,22 +83,13 @@ public class AttendAction extends ActionSupport{
 		this.attendShowLists = attendShowLists;
 	}
 
-	/** 
-     * Struts2序列化指定属性时，必须有该属性的getter方法，实际上，如果没有属性，而只有getter方法也是可以的 
-     * @return 
-     */  
+ 
     public Map<String, Object> getDataMap() {  
         return dataMap;  
     }  
     
-	/**
-	 * 所有方法如下：
-	 */
-	
-	/**
-	 * 获取考勤列表
-	 * @return
-	 */
+
+
 	public String getAttend(){
 		dataMap = new HashMap<String, Object>();
 		attendShowLists = announInfoService.getAttend(getUserNum(),getAttendNum());
@@ -113,10 +98,7 @@ public class AttendAction extends ActionSupport{
 		return SUCCESS;
 	}
 	
-	/**
-	 * 获取某条考勤信息
-	 * @return
-	 */
+
 	public String updateAttend(){
 		dataMap = new HashMap<String, Object>();
 		attendShowLists = announInfoService.updateAttend(getUserNum(),getAttendNum());
@@ -131,10 +113,7 @@ public class AttendAction extends ActionSupport{
 		return SUCCESS;
 	}
 	
-	/**
-	 * 更新服务器端考勤信息
-	 * @return
-	 */
+
 	public String updateServerAttend(){
 		dataMap = new HashMap<String, Object>();
 		if(announInfoService.updateServerAttend(getUserNum(),getAttendNum(),getIp())){
@@ -147,10 +126,5 @@ public class AttendAction extends ActionSupport{
 	}
 	
 	
-//	//设置key属性不作为json的内容返回  
-//    @JSON(serialize=true)  
-//    public String getKey() {  
-//        return key;  
-//    } 
-	
+
 }

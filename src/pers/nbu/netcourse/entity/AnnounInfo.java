@@ -4,11 +4,47 @@ public class AnnounInfo {
 	private Integer AnnNum;
 	private String AnnTitle;
 	private String AnnCon;
-	private String AnnUrl;
 	private String AnnTime;
-	private Integer Treeid;
+	private String AnnUrl;
 	private String TeachNum;
+	private String AnnType; 
+	private Integer Treeid;
 	
+	public AnnounInfo(String annTitle, String annCon,
+			String annTime, String annUrl, String teachNum, String annType,
+			Integer treeid) {
+		AnnTitle = annTitle;
+		AnnCon = annCon;
+		AnnTime = annTime;
+		AnnUrl = annUrl;
+		TeachNum = teachNum;
+		AnnType = annType;
+		Treeid = treeid;
+	}
+	
+	public AnnounInfo(String annTitle, String annCon,
+			String annTime,String teachNum, String annType,
+			Integer treeid) {
+		AnnTitle = annTitle;
+		AnnCon = annCon;
+		AnnTime = annTime;
+		TeachNum = teachNum;
+		AnnType = annType;
+		Treeid = treeid;
+	}
+	
+	public AnnounInfo(Integer annNum, String annTitle, String annCon,
+			String annTime, String annUrl, String teachNum, String annType,
+			Integer treeid) {
+		AnnNum = annNum;
+		AnnTitle = annTitle;
+		AnnCon = annCon;
+		AnnTime = annTime;
+		AnnUrl = annUrl;
+		TeachNum = teachNum;
+		AnnType = annType;
+		Treeid = treeid;
+	}
 	public Integer getAnnNum() {
 		return AnnNum;
 	}
@@ -50,6 +86,12 @@ public class AnnounInfo {
 	}
 	public void setTeachNum(String teachNum) {
 		TeachNum = teachNum;
+	}
+	public String getAnnType() {
+		return AnnType;
+	}
+	public void setAnnType(String annType) {
+		AnnType = annType;
 	}
 	
 	

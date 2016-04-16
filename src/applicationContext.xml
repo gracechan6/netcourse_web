@@ -38,7 +38,6 @@
 		<property name="mappingResources">
 			<list>
 			<!-- 用户库实体bean的映射配置 -->
-			<value>pers/nbu/netcourse/entity/AnnounInfo.hbm.xml</value>
 			</list>
 		</property>
 		

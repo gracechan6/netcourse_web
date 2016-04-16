@@ -1,5 +1,7 @@
 package pers.nbu.netcourse.action;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +18,7 @@ import com.opensymphony.xwork2.ActionSupport;
 public class AnnounInfoAction extends ActionSupport{
 	
 	/**
-	 * ÊµÌå
+	 * å®ä½“
 	 */
 	private Integer AnnNum;
 	private String AnnTitle;
@@ -25,13 +27,24 @@ public class AnnounInfoAction extends ActionSupport{
 	private String AnnTime;
 	private Integer Treeid;
 	private String TeachNum;
-	private String key = ""; 
+	private String AnnType; 
+	
+	public String getAnnType() {
+		return AnnType;
+	}
+
+	public void setAnnType(String annType) {
+		AnnType = annType;
+	}
+
+	private String userNum;
 	
 	/**
-	 * ÊµÌåÀà
+	 * å®ä½“ç±»
 	 */
 	private AnnounInfo announInfo;
 	private ArrayList<AnnShow> announInfoLists;
+	private ArrayList<AnnounInfo> annLists;
 	
 	/**
 	 * service
@@ -39,14 +52,14 @@ public class AnnounInfoAction extends ActionSupport{
 	private AnnounInfoService announInfoService;
 	
 	/**
-	 * JsonÅäÖÃ
+	 * Jsoné…ç½®
 	 */
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
 	
 //	private static final long serialVersionUID = 1L;
 	  
-    //½«»á±»Struts2ĞòÁĞ»¯ÎªJSON×Ö·û´®µÄ¶ÔÏó  
+    //å°†ä¼šè¢«Struts2åºåˆ—åŒ–ä¸ºJSONå­—ç¬¦ä¸²çš„å¯¹è±¡  
     private Map<String, Object> dataMap;  
 	
 	/**
@@ -55,7 +68,7 @@ public class AnnounInfoAction extends ActionSupport{
 	 */
     
     /** 
-     * Struts2ĞòÁĞ»¯Ö¸¶¨ÊôĞÔÊ±£¬±ØĞëÓĞ¸ÃÊôĞÔµÄgetter·½·¨£¬Êµ¼ÊÉÏ£¬Èç¹ûÃ»ÓĞÊôĞÔ£¬¶øÖ»ÓĞgetter·½·¨Ò²ÊÇ¿ÉÒÔµÄ 
+     * Struts2åºåˆ—åŒ–æŒ‡å®šå±æ€§æ—¶ï¼Œå¿…é¡»æœ‰è¯¥å±æ€§çš„getteræ–¹æ³•ï¼Œå®é™…ä¸Šï¼Œå¦‚æœæ²¡æœ‰å±æ€§ï¼Œè€Œåªæœ‰getteræ–¹æ³•ä¹Ÿæ˜¯å¯ä»¥çš„ 
      * @return 
      */  
     public Map<String, Object> getDataMap() {  
@@ -65,6 +78,14 @@ public class AnnounInfoAction extends ActionSupport{
 	public Integer getAnnNum() {
 		return AnnNum;
 	}
+	public String getUserNum() {
+		return userNum;
+	}
+
+	public void setUserNum(String userNum) {
+		this.userNum = userNum;
+	}
+
 	public void setAnnNum(Integer annNum) {
 		AnnNum = annNum;
 	}
@@ -131,15 +152,15 @@ public class AnnounInfoAction extends ActionSupport{
 	}
 
 	/**
-	 * ËùÓĞ·½·¨ÈçÏÂ£º
+	 * æ‰€æœ‰æ–¹æ³•å¦‚ä¸‹ï¼š
 	 */
 	
 	/**
-	 * »ñÈ¡ËùÓĞ¹«¸æĞÅÏ¢
+	 * è·å–æ‰€æœ‰å…¬å‘Šä¿¡æ¯
 	 * @return
 	 */
 	public String getAllAnnounInfo(){
-		// dataMapÖĞµÄÊı¾İ½«»á±»Struts2×ª»»³ÉJSON×Ö·û´®£¬ËùÒÔÕâÀïÒªÏÈÇå¿ÕÆäÖĞµÄÊı¾İ 
+		// dataMapä¸­çš„æ•°æ®å°†ä¼šè¢«Struts2è½¬æ¢æˆJSONå­—ç¬¦ä¸²ï¼Œæ‰€ä»¥è¿™é‡Œè¦å…ˆæ¸…ç©ºå…¶ä¸­çš„æ•°æ® 
 		//dataMap.clear();
 		dataMap = new HashMap<String, Object>();
 		announInfoLists = announInfoService.getAllAnnounInfo(0);
@@ -149,7 +170,6 @@ public class AnnounInfoAction extends ActionSupport{
 	}
 	
 	/**
-	 * 
 	 * @return
 	 */
 	public String getAnnounInfoByNum(){
@@ -160,8 +180,64 @@ public class AnnounInfoAction extends ActionSupport{
 		return SUCCESS;
 	}
 	
+	/**
+	 * @return æ•™å¸ˆç«¯è·å–å…¬å‘Š
+	 */
+	public String getAnn(){
+		dataMap = new HashMap<String, Object>();
+		annLists= announInfoService.getAnn(getAnnNum(), getUserNum());
+		dataMap.put("success", true);
+		dataMap.put("returnData", annLists);
+		return SUCCESS;
+	}
 	
-//	//ÉèÖÃkeyÊôĞÔ²»×÷ÎªjsonµÄÄÚÈİ·µ»Ø  
+	/**
+	 * @return æ•™å¸ˆç«¯æ·»åŠ å…¬å‘Š
+	 * @throws UnsupportedEncodingException 
+	 */
+	public String addAnn() throws UnsupportedEncodingException{
+		dataMap = new HashMap<String, Object>();
+		String t,c,ty;
+		t=new String(getAnnTitle().getBytes("ISO-8859-1"),"UTF-8");
+		c=new String(getAnnCon().getBytes("ISO-8859-1"),"UTF-8");
+		ty=new String(getAnnType().getBytes("ISO-8859-1"),"UTF-8");
+		announInfo = new AnnounInfo(t, c, getAnnTime(), getTeachNum(), ty, getTreeid());
+		int n=announInfoService.addAnn(announInfo);
+		dataMap.put("success", true);
+		dataMap.put("AnnNum", n);
+		return SUCCESS;
+	}
+	
+	/**
+	 * @return æ•™å¸ˆç«¯åˆ é™¤å…¬å‘Š
+	 */
+	public String delAnn(){
+		dataMap = new HashMap<String, Object>();
+		if(announInfoService.delAnn(getAnnNum())){
+			dataMap.put("success", true);
+		}else
+			dataMap.put("success", false);
+		return SUCCESS;
+	}
+	
+	/**
+	 * @return æ•™å¸ˆç«¯æ›´æ–°å…¬å‘Š
+	 * @throws UnsupportedEncodingException 
+	 */
+	public String updateAnn() throws UnsupportedEncodingException{
+		dataMap = new HashMap<String, Object>();
+		String t,c;
+		t=new String(getAnnTitle().getBytes("ISO-8859-1"),"UTF-8");
+		c=new String(getAnnCon().getBytes("ISO-8859-1"),"UTF-8");
+		if(announInfoService.updateAnn(getAnnNum(),t,c,getAnnTime())){
+			dataMap.put("success", true);
+		}else
+			dataMap.put("success", false);
+		return SUCCESS;
+	}
+	
+	
+//	//è®¾ç½®keyå±æ€§ä¸ä½œä¸ºjsonçš„å†…å®¹è¿”å›  
 //    @JSON(serialize=true)  
 //    public String getKey() {  
 //        return key;  

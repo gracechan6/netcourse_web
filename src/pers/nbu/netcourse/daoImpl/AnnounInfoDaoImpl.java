@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import pers.nbu.netcourse.dao.AnnounInfoDao;
 import pers.nbu.netcourse.entity.AnnShow;
+import pers.nbu.netcourse.entity.AnnounInfo;
 import pers.nbu.netcourse.entity.AttendShow;
 import pers.nbu.netcourse.entity.TaskManageShow;
 import pers.nbu.netcourse.entity.TaskShow;
@@ -21,10 +22,9 @@ public class AnnounInfoDaoImpl extends HibernateDaoSupport implements AnnounInfo
 	
 
 	public ArrayList<AnnShow> getAllAnnounInfo(int num) {
-		//return (ArrayList<AnnounInfo>) getHibernateTemplate().find("from AnnounInfo where AnnType=?",new String[]{"¹«¸æ"});
 		String sql="select AnnNum,AnnTitle,AnnCon,AnnTime,AnnUrl,TeachName,CourName " +
 				"from tb_AnnounInfo a,tb_YTeacherInfo b,tb_TreeInfo c,tb_YCourseInfo d  " +
-				"where AnnType='¹«¸æ'"+" and a.TeachNum = b.TeachNum and a.Treeid = c.Treeid and c.courNum =d.courNum and a.annNum> "+num;
+				"where AnnType='å…¬å‘Š'"+" and a.TeachNum = b.TeachNum and a.Treeid = c.Treeid and c.courNum =d.courNum and a.annNum> "+num;
 		try {
 			connSql .openSQL();	
 			return getAllAnnShow(connSql.executeQuery(sql));
@@ -208,8 +208,8 @@ public class AnnounInfoDaoImpl extends HibernateDaoSupport implements AnnounInfo
 				"from TeaStatus, tb_YTeachActivity ,TeaAttdenceAdmin,TeaAttdenceInfo,tb_YTeacherInfo,tb_YCourseInfo " +
 				"where tb_YTeachActivity.ActNum=TeaAttdenceAdmin.ActNum and TeaAttdenceAdmin.AttOpen =TeaStatus.AttOpen " +
 				"and TeaAttdenceAdmin.AttdenceNum=TeaAttdenceInfo.AttdenceNum and tb_YTeacherInfo.TeachNum=TeaAttdenceAdmin.TeachNum " +
-				"and tb_YCourseInfo.CourNum=tb_YTeachActivity.CourNum  and TeaAttdenceAdmin.AttdenceClass<>'¿ÎÌÃ¿¼ÇÚ'  " +
-				"and TeaAttdenceInfo.StuNum="+num+"  and TeaStatus.StaName<>'Î´¿ªÊ¼¿¼ÇÚ' and TeaAttdenceInfo.AttdenceNum> " +tnum+
+				"and tb_YCourseInfo.CourNum=tb_YTeachActivity.CourNum  and TeaAttdenceAdmin.AttdenceClass<>'è¯¾å ‚è€ƒå‹¤'  " +
+				"and TeaAttdenceInfo.StuNum="+num+"  and TeaStatus.StaName<>'æœªå¼€å§‹è€ƒå‹¤' and TeaAttdenceInfo.AttdenceNum> " +tnum+
 				" order by AttdenceNum asc";
 		
 		try {
@@ -229,8 +229,8 @@ public class AnnounInfoDaoImpl extends HibernateDaoSupport implements AnnounInfo
 				"from TeaStatus, tb_YTeachActivity ,TeaAttdenceAdmin,TeaAttdenceInfo,tb_YTeacherInfo,tb_YCourseInfo " +
 				"where tb_YTeachActivity.ActNum=TeaAttdenceAdmin.ActNum and TeaAttdenceAdmin.AttOpen =TeaStatus.AttOpen " +
 				"and TeaAttdenceAdmin.AttdenceNum=TeaAttdenceInfo.AttdenceNum and tb_YTeacherInfo.TeachNum=TeaAttdenceAdmin.TeachNum " +
-				"and tb_YCourseInfo.CourNum=tb_YTeachActivity.CourNum  and TeaAttdenceAdmin.AttdenceClass<>'¿ÎÌÃ¿¼ÇÚ'  " +
-				"and TeaAttdenceInfo.StuNum="+num+"  and TeaStatus.StaName<>'Î´¿ªÊ¼¿¼ÇÚ' and TeaAttdenceInfo.AttdenceNum= " +tnum+
+				"and tb_YCourseInfo.CourNum=tb_YTeachActivity.CourNum  and TeaAttdenceAdmin.AttdenceClass<>'è¯¾å ‚è€ƒå‹¤'  " +
+				"and TeaAttdenceInfo.StuNum="+num+"  and TeaStatus.StaName<>'æœªå¼€å§‹è€ƒå‹¤' and TeaAttdenceInfo.AttdenceNum= " +tnum+
 				" order by AttdenceNum asc";
 		
 		try {
@@ -245,7 +245,7 @@ public class AnnounInfoDaoImpl extends HibernateDaoSupport implements AnnounInfo
 	}
 	
 	public Boolean updateServerAttend(String num, int tnum,String ip) {
-		String sql="UPDATE TeaAttdenceInfo SET Status='ÒÑµ½',StuAsNum=1,ip="+ip+" WHERE StuNum="+num+ " and AttdenceNum="+tnum;
+		String sql="UPDATE TeaAttdenceInfo SET Status='ç¼ºè¯¾',StuAsNum=1,ip="+ip+" WHERE StuNum="+num+ " and AttdenceNum="+tnum;
 		try {
 			connSql .openSQL();	
 			if (connSql.executeUpdate(sql)>0) {
@@ -276,5 +276,80 @@ public class AnnounInfoDaoImpl extends HibernateDaoSupport implements AnnounInfo
 		}
 		
 		return "false";
+	}
+	
+	public ArrayList<AnnounInfo> getAnn(int num,String tnum) {
+		String sql="select * from tb_AnnounInfo where AnnType='å…¬å‘Š' and TeachNum="+tnum+" and AnnNum>"+num;
+		try {
+			connSql .openSQL();	
+			ResultSet rs=connSql.executeQuery(sql);
+			if(rs.next()){
+				ArrayList<AnnounInfo> lists=new ArrayList();
+				AnnounInfo announInfo;
+				do {
+					String date=rs.getString("AnnTime");
+					announInfo = new AnnounInfo(rs.getInt("AnnNum"),rs.getString("AnnTitle"),rs.getString("AnnCon"),date.substring(0,date.length()-2) ,
+							rs.getString("AnnUrl"),rs.getString("TeachNum") ,rs.getString("AnnType"),rs.getInt("Treeid"));
+					lists.add(announInfo);
+				} while (rs.next());
+				return lists;
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally{
+			connSql.closeSQL();
+		}
+		return null;
+	}
+	
+	public int addAnn(AnnounInfo announInfo) {
+		String sql = "insert into tb_AnnounInfo (AnnTitle,AnnCon,AnnUrl,AnnTime,TeachNum,Treeid,AnnType) values ('" +
+				announInfo.getAnnTitle() +"','"+announInfo.getAnnCon()+"',NULL,'"+announInfo.getAnnTime()+"','"+announInfo.getTeachNum()+"',"+
+				announInfo.getTreeid()+",'"+announInfo.getAnnType() +
+				"');select top 1 AnnNum from tb_AnnounInfo order by AnnNum desc";
+		try {
+			connSql .openSQL();	
+
+//			sql = "select * from tb_AnnounInfo where AnnTitle='"+announInfo.getAnnTitle()+"' and AnnCon='"+ announInfo.getAnnCon()+
+//					"' and TeachNum='"+announInfo.getTeachNum()+"' Treeid="+announInfo.getTreeid();
+			ResultSet rs= connSql.executeQuery(sql);
+			if (rs.next()) {
+				return rs.getInt("AnnNum") ;
+			}
+
+		} catch (Exception e) {
+		}finally{
+			connSql.closeSQL();
+		}
+		return 0;
+	}
+	
+	public Boolean delAnn(int num) {
+		String sql = "delete from tb_AnnounInfo where AnnNum="+num;
+		try {
+			connSql .openSQL();	
+			if (connSql.executeUpdate(sql)>0) {
+				return true;
+			}
+		} catch (Exception e) {
+		}finally{
+			connSql.closeSQL();
+		}
+		return false;
+	}
+	
+	public Boolean updateAnn(int num, String title, String con, String time) {
+		String sql = "update tb_AnnounInfo SET AnnTitle='"+title+"',AnnCon='"+con+"',AnnTime='"+time+"' where AnnNum="+num;
+		try {
+			connSql .openSQL();	
+			if (connSql.executeUpdate(sql)>0) {
+				return true;
+			}
+		} catch (Exception e) {
+		}finally{
+			connSql.closeSQL();
+		}
+		return false;
 	}
 }
