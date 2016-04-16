@@ -257,4 +257,24 @@ public class AnnounInfoDaoImpl extends HibernateDaoSupport implements AnnounInfo
 		}
 		return false;
 	}
+	
+	
+	public String loginVaildT(String name, String pwd) {
+		String sql="select * from tb_YTeacherInfo where TeachNum= "+name+" and TeachPws= "+pwd;
+		try {
+			connSql .openSQL();	
+			ResultSet rs=connSql.executeQuery(sql);
+			if(rs.next()){
+				return "true;"+rs.getString("TeachName")+";"
+								+rs.getString("TeachPost")+";"+rs.getString("TeachMod");
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally{
+			connSql.closeSQL();
+		}
+		
+		return "false";
+	}
 }

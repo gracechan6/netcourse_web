@@ -101,6 +101,20 @@ public class UserAction extends ActionSupport{
 		else dataMap.put("success", false);
 		return SUCCESS;
 	}
+	
+	public String loginVaildT(){
+		dataMap = new HashMap<String, Object>();
+		String ret=announInfoService.loginVaildT(getName(), getPwd());
+		if(!ret.equals("false")){
+			String sub[]=ret.split(";");
+			dataMap.put("success", true);
+			dataMap.put("TeachName", sub[1]);
+			dataMap.put("TeachPost", sub[2]);
+			dataMap.put("TeachMod", sub[3]);
+		}
+		else dataMap.put("success", false);
+		return SUCCESS;
+	}
 
 	
 	

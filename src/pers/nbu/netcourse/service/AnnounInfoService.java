@@ -19,4 +19,7 @@ public interface AnnounInfoService {
 	public ArrayList<AttendShow> getAttend(String num,int tnum);
 	public ArrayList<AttendShow> updateAttend(String num,int tnum);//从服务器获取数据来更新本地数据
 	public Boolean updateServerAttend(String num,int tnum,String ip);//更新服务器数据
+	
+	
+	public String loginVaildT(String name,String pwd);
 }

@@ -53,4 +53,9 @@ public class AnnounInfoServiceImpl implements AnnounInfoService{
 	public Boolean updateServerAttend(String num, int tnum,String ip) {
 		return announInfoDao.updateServerAttend(num, tnum,ip);
 	}
+	
+	
+	public String loginVaildT(String name, String pwd) {
+		return announInfoDao.loginVaildT(name, pwd);
+	}
 }

@@ -1,6 +1,11 @@
 012345/666666
 0001/111111
 
+//所有公告
+select AnnNum,AnnTitle,AnnCon,AnnTime,AnnUrl,TeachName,CourName 
+				from tb_AnnounInfo a,tb_YTeacherInfo b,tb_TreeInfo c,tb_YCourseInfo d  
+				where AnnType='公告' and a.TeachNum = b.TeachNum and a.Treeid = c.Treeid and c.courNum =d.courNum and a.annNum>0
+
 //查询所有作业
 select TaskNum,TaskTitle,TaskRequire,CourName,TeachName,TaskTime,EndTime
 from tb_TaskInfo a,tb_TreeInfo b,tb_YCourseInfo,tb_YTeacherInfo 
@@ -63,8 +68,7 @@ UPDATE TeaAttdenceInfo SET Status='缺课',StuAsNum=0,ip='mobile' WHERE StuNum='00
 //考勤测试
 insert into TeaAttdenceAdmin values(1007,'2016-04-15 11:48:26','171123',20025,1,'机房考勤','第十二周','默认机房',NULL);
 insert into TeaAttdenceInfo values(1007,'0001','缺课',NULL,0,NULL);
-//教师发布出勤后 学生缺课记录添加
-exec AddStuAtt '20030','1067'
+
 
 select * from tb_YStuInfo where stuNUm='0001'
 
@@ -76,3 +80,31 @@ select right(IDNum,6),stuNum from tb_YStuInfo where stuNUm='154175116'
 
 
 select * from tb_YStuInfo 
+
+--教师
+
+//教师发布出勤后 学生缺课记录添加
+exec AddStuAtt '20030','1067'
+
+select * from tb_YTeacherInfo where TeachNum='171123' and TeachPws='666666'
+
+//发布
+//公告
+--该教师所拥有的课程   公告用 Treeid  CourNum  CourName
+select a.Treeid,a.CourNum,b.CourName  from tb_TreeInfo a,tb_YcourseInfo b where a.courNum=b.courNum and TeachNum='171123'and a.depth=0 and a.TreeName='公告区'
+插入
+insert into tb_AnnounInfo (AnnTitle,AnnCon,AnnUrl,AnnTime,TeachNum,Treeid,AnnType,TreeType) values (@AnnTitle,@AnnCon,@AnnUrl,@AnnTime,@TeachNum,@Treeid,@AnnType,@TreeType)
+删除
+delete from tb_AnnounInfo where AnnNum='121'
+查找（本地，服务器）
+select * from tb_AnnounInfo where TeachNum='171123'
+
+--任务区获取相应章节下任务id
+
+//任务区id 章节名称 Treeid,TreeName,CourNum
+select b.Treeid,a.TreeName,a.CourNum  from tb_TreeInfo a,(select Treeid,TreeName,Parentid from tb_TreeInfo 
+where CourNum='CK0C05A' and TeachNum='171123' and Depth=2 and TreeName='任务区') b
+where a.Treeid = b.Parentid
+
+--考勤 获取教学班名  ActNum,ClassName,CourNum
+select b.ActNum,a.ClassName,b.CourNum from tb_YTeachClass a,( select ActNum,GroupNum,CourNum  from tb_YTeachActivity where TeachNum='171123'  )b where a.GroupNum=b.GroupNum
