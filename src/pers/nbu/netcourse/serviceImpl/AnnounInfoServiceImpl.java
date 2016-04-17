@@ -3,12 +3,17 @@ package pers.nbu.netcourse.serviceImpl;
 
 import java.util.ArrayList;
 
+
 import pers.nbu.netcourse.dao.AnnounInfoDao;
+import pers.nbu.netcourse.entity.ActInfo;
 import pers.nbu.netcourse.entity.AnnShow;
 import pers.nbu.netcourse.entity.AnnounInfo;
 import pers.nbu.netcourse.entity.AttendShow;
+import pers.nbu.netcourse.entity.CourseShow;
+import pers.nbu.netcourse.entity.TaskInfo;
 import pers.nbu.netcourse.entity.TaskManageShow;
 import pers.nbu.netcourse.entity.TaskShow;
+import pers.nbu.netcourse.entity.TreeInfo;
 import pers.nbu.netcourse.service.AnnounInfoService;
 
 public class AnnounInfoServiceImpl implements AnnounInfoService{
@@ -72,6 +77,34 @@ public class AnnounInfoServiceImpl implements AnnounInfoService{
 	}
 	public Boolean updateAnn(int num, String title, String con, String time) {
 		return announInfoDao.updateAnn(num, title, con, time);
+	}
+	
+	public ArrayList<CourseShow> getCourse(String tnum,int id) {
+		return announInfoDao.getCourse(tnum,id);
+	}
+	
+	public int addTaskInfo(TaskInfo taskInfo) {
+		return announInfoDao.addTaskInfo(taskInfo);
+	}
+	
+	public Boolean delTaskInfo(int num) {
+		return announInfoDao.delTaskInfo(num);
+	}
+	
+	public ArrayList<TaskInfo> getTaskInfo(int num, String tnum) {
+		return announInfoDao.getTaskInfo(num, tnum);
+	}
+	
+	public Boolean updateTaskInfo(TaskInfo taskInfo) {
+		return announInfoDao.updateTaskInfo(taskInfo);
+	}	
+	
+	public ArrayList<ActInfo> getAct(String tnum, int id) {
+		return announInfoDao.getAct(tnum, id);
+	}
+	
+	public ArrayList<TreeInfo> getTree(String tnum, int id) {
+		return announInfoDao.getTree(tnum, id);
 	}
 	
 

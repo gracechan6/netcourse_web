@@ -11,6 +11,7 @@ import org.apache.struts2.json.annotations.JSON;
 
 import pers.nbu.netcourse.entity.AnnShow;
 import pers.nbu.netcourse.entity.AnnounInfo;
+import pers.nbu.netcourse.entity.CourseShow;
 import pers.nbu.netcourse.service.AnnounInfoService;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -45,6 +46,7 @@ public class AnnounInfoAction extends ActionSupport{
 	private AnnounInfo announInfo;
 	private ArrayList<AnnShow> announInfoLists;
 	private ArrayList<AnnounInfo> annLists;
+	private ArrayList<CourseShow> courseLists;
 	
 	/**
 	 * service
@@ -197,11 +199,11 @@ public class AnnounInfoAction extends ActionSupport{
 	 */
 	public String addAnn() throws UnsupportedEncodingException{
 		dataMap = new HashMap<String, Object>();
-		String t,c,ty;
-		t=new String(getAnnTitle().getBytes("ISO-8859-1"),"UTF-8");
-		c=new String(getAnnCon().getBytes("ISO-8859-1"),"UTF-8");
-		ty=new String(getAnnType().getBytes("ISO-8859-1"),"UTF-8");
-		announInfo = new AnnounInfo(t, c, getAnnTime(), getTeachNum(), ty, getTreeid());
+		//String t,c,ty;
+		//t=new String(getAnnTitle().getBytes("ISO-8859-1"),"UTF-8");
+		//c=new String(getAnnCon().getBytes("ISO-8859-1"),"UTF-8");
+		//ty=new String(getAnnType().getBytes("ISO-8859-1"),"UTF-8");
+		announInfo = new AnnounInfo(getAnnTitle(), getAnnCon(), getAnnTime(), getTeachNum(), getAnnType(), getTreeid());
 		int n=announInfoService.addAnn(announInfo);
 		dataMap.put("success", true);
 		dataMap.put("AnnNum", n);
@@ -226,13 +228,24 @@ public class AnnounInfoAction extends ActionSupport{
 	 */
 	public String updateAnn() throws UnsupportedEncodingException{
 		dataMap = new HashMap<String, Object>();
-		String t,c;
-		t=new String(getAnnTitle().getBytes("ISO-8859-1"),"UTF-8");
-		c=new String(getAnnCon().getBytes("ISO-8859-1"),"UTF-8");
-		if(announInfoService.updateAnn(getAnnNum(),t,c,getAnnTime())){
+		//String t,c;
+		//t=new String(getAnnTitle().getBytes("ISO-8859-1"),"UTF-8");
+		//c=new String(getAnnCon().getBytes("ISO-8859-1"),"UTF-8");
+		if(announInfoService.updateAnn(getAnnNum(),getAnnTitle(),getAnnCon(),getAnnTime())){
 			dataMap.put("success", true);
 		}else
 			dataMap.put("success", false);
+		return SUCCESS;
+	}
+	
+	/**
+	 * @return 教师端获取发布公告所需的课程信息
+	 */
+	public String getCourse(){
+		dataMap = new HashMap<String, Object>();
+		courseLists= announInfoService.getCourse(getUserNum(),getTreeid());
+		dataMap.put("success", true);
+		dataMap.put("returnData", courseLists);
 		return SUCCESS;
 	}
 	

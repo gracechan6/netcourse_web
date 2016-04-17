@@ -82,27 +82,24 @@ select * from tb_YStuInfo
 
 --教师
 
-//教师发布出勤后 学生缺课记录添加
-exec AddStuAtt '20030','1067'
 
-select * from tb_YTeacherInfo where TeachNum='171123' and TeachPws='666666'
 
 //发布
 //公告
 --该教师所拥有的课程   公告用 Treeid  CourNum  CourName
-select a.Treeid,a.CourNum,b.CourName  from tb_TreeInfo a,tb_YcourseInfo b where a.courNum=b.courNum and TeachNum='171123'and a.depth=0 and a.TreeName='公告区'
+select a.Treeid,a.CourNum,b.CourName  from tb_TreeInfo a,tb_YcourseInfo b where a.courNum=b.courNum and TeachNum='171123'and a.depth=0 and a.TreeName='公告区' and Treeid>0
 select * from tb_AnnounInfo where AnnType='公告' and TeachNum='171123' and AnnNum>0
 插入
-insert into tb_AnnounInfo (AnnTitle,AnnCon,AnnUrl,AnnTime,TeachNum,Treeid,AnnType,Treeid) values (@AnnTitle,@AnnCon,@AnnUrl,@AnnTime,@TeachNum,@Treeid,@AnnType,@TreeType)
+insert into tb_AnnounInfo (AnnTitle,AnnCon,AnnUrl,AnnTime,TeachNum,Treeid,AnnType) values (@AnnTitle,@AnnCon,@AnnUrl,@AnnTime,@TeachNum,@Treeid,@AnnType,@TreeType)
 
 insert into tb_AnnounInfo (AnnTitle,AnnCon,AnnUrl,AnnTime,TeachNum,Treeid,AnnType) values ('nihao你好','sad阿斯达撒',NULL,'2016-04-06 15:23:23','171123',620,'公告')
 select top 1 AnnNum from tb_AnnounInfo order by AnnNum desc
 删除
-delete from tb_AnnounInfo where AnnNum='126'
+delete from tb_AnnounInfo where AnnNum=126
 更新
 update tb_AnnounInfo SET AnnTitle='sad111111',AnnCon='sadsad',AnnTime='2016-04-12 11:01:01' where AnnNum='111'
 查找（本地，服务器）
-select * from tb_AnnounInfo where TeachNum='171123'
+select * from tb_AnnounInfo where TeachNum='171123' order by AnnNum desc 
 
 
 
@@ -113,5 +110,27 @@ select b.Treeid,a.TreeName,a.CourNum  from tb_TreeInfo a,(select Treeid,TreeName
 where CourNum='CK0C05A' and TeachNum='171123' and Depth=2 and TreeName='任务区') b
 where a.Treeid = b.Parentid
 
+select b.Treeid,a.TreeName,a.CourNum  from tb_TreeInfo a,(select Treeid,TreeName,Parentid from tb_TreeInfo 
+where  TeachNum='171123' and Depth=2 and TreeName='任务区') b
+where a.Treeid = b.Parentid and b.Treeid>0
+
+查
+select * from tb_TaskInfo where TeachNum='171123' and TaskNum>0  order by TaskNum desc
+select * from tb_TaskInfo where TeachNum=171123 and TaskNum>0
+增
+insert into tb_TaskInfo(TeachNum,TaskTitle,TaskRequire,YorNSub,YorNVis,TaskUrl,[File],Video,Annex,TaskTime,EndTime,Treeid,IsStuDown,IsShowResult) values('171123','sad','gfgf','True','True',NULL,'True','False','False','2015-10-12 10:33:31.063','2015-10-19 10:33:31.063',632,'False','False');
+select top 1 TaskNum from tb_TaskInfo order by TaskNum desc
+删
+delete from tb_TaskInfo where TaskNum=118
+改
+update tb_TaskInfo set TaskTitle='fafada',TaskRequire='fsdfshgfhd',YorNSub='True',YorNVis='True',[File]='False',Video='True',Annex='False',EndTime='2015-10-20 10:33:31.063',IsStuDown='True',IsShowResult='False' where TaskNum=118
+
+
 --考勤 获取教学班名  ActNum,ClassName,CourNum
-select b.ActNum,a.ClassName,b.CourNum from tb_YTeachClass a,( select ActNum,GroupNum,CourNum  from tb_YTeachActivity where TeachNum='171123'  )b where a.GroupNum=b.GroupNum
+select b.ActNum,a.ClassName,b.CourNum from tb_YTeachClass a,( select ActNum,GroupNum,CourNum  from tb_YTeachActivity where TeachNum='171123'  )b 
+where a.GroupNum=b.GroupNum and b.ActNum>0
+
+//教师发布出勤后 学生缺课记录添加
+exec AddStuAtt '20030','1067'
+
+select * from tb_YTeacherInfo where TeachNum='171123' and TeachPws='666666'

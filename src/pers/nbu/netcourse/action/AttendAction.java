@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.struts2.json.annotations.JSON;
 
+import pers.nbu.netcourse.entity.ActInfo;
 import pers.nbu.netcourse.entity.AnnShow;
 import pers.nbu.netcourse.entity.AnnounInfo;
 import pers.nbu.netcourse.entity.AttendShow;
@@ -21,9 +22,20 @@ public class AttendAction extends ActionSupport{
 	private Integer AttendNum;
 	private String UserNum;
 	private String ip;
+	private Integer ActNum;
 	
 
+	public Integer getActNum() {
+		return ActNum;
+	}
+
+	public void setActNum(Integer actNum) {
+		ActNum = actNum;
+	}
+
+
 	private ArrayList<AttendShow> attendShowLists;
+	private ArrayList<ActInfo> actInfos ;
 	
 	/**
 	 * service
@@ -122,6 +134,18 @@ public class AttendAction extends ActionSupport{
 		else {
 			dataMap.put("success", false);
 		}
+		return SUCCESS;
+	}
+	
+	
+	/**
+	 * @return 教师端获取发布考勤所需的教学班信息
+	 */
+	public String getAct(){
+		dataMap = new HashMap<String, Object>();
+		actInfos= announInfoService.getAct(getUserNum(),getActNum());
+		dataMap.put("success", true);
+		dataMap.put("returnData", actInfos);
 		return SUCCESS;
 	}
 	

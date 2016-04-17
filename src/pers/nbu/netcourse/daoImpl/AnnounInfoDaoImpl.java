@@ -8,11 +8,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import pers.nbu.netcourse.dao.AnnounInfoDao;
+import pers.nbu.netcourse.entity.ActInfo;
 import pers.nbu.netcourse.entity.AnnShow;
 import pers.nbu.netcourse.entity.AnnounInfo;
 import pers.nbu.netcourse.entity.AttendShow;
+import pers.nbu.netcourse.entity.CourseShow;
+import pers.nbu.netcourse.entity.TaskInfo;
 import pers.nbu.netcourse.entity.TaskManageShow;
 import pers.nbu.netcourse.entity.TaskShow;
+import pers.nbu.netcourse.entity.TreeInfo;
 import pers.nbu.netcourse.util.ConnSQL;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -352,4 +356,156 @@ public class AnnounInfoDaoImpl extends HibernateDaoSupport implements AnnounInfo
 		}
 		return false;
 	}
+	
+	public ArrayList<CourseShow> getCourse(String tnum,int id) {
+		String sql="select a.Treeid,a.CourNum,b.CourName  from tb_TreeInfo a,tb_YcourseInfo b where a.courNum=b.courNum " +
+				"and TeachNum='" +tnum +
+				"' and a.depth=0 and a.TreeName='公告区' and Treeid>"+id;
+		
+		try {
+			connSql .openSQL();	
+			ResultSet rs=connSql.executeQuery(sql);
+			if(rs.next()){
+				ArrayList<CourseShow> lists=new ArrayList();
+				CourseShow c;
+				do {
+					c = new CourseShow(rs.getInt("Treeid"),rs.getString("CourNum") ,rs.getString("CourName"));
+					lists.add(c);
+				} while (rs.next());
+				return lists;
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally{
+			connSql.closeSQL();
+		}
+		return null;
+	}
+	
+	public ArrayList<ActInfo> getAct(String tnum, int id) {
+		String sql="select b.ActNum,a.ClassName,b.CourNum from tb_YTeachClass a,( select ActNum,GroupNum,CourNum " +
+				" from tb_YTeachActivity where TeachNum='"+tnum+"'  )b where a.GroupNum=b.GroupNum and b.ActNum>"+id ;
+		try {
+			connSql .openSQL();	
+			ResultSet rs=connSql.executeQuery(sql);
+			if(rs.next()){
+				ArrayList<ActInfo> lists=new ArrayList();
+				ActInfo c;
+				do {
+					c = new ActInfo(rs.getInt("ActNum"),rs.getString("CourNum") ,rs.getString("ClassName"));
+					lists.add(c);
+				} while (rs.next());
+				return lists;
+			}
+			
+		} catch (Exception e) {
+		}finally{
+			connSql.closeSQL();
+		}
+		return null;
+	}
+	
+	public ArrayList<TreeInfo> getTree(String tnum, int id) {
+		String sql="select b.Treeid,a.TreeName,a.CourNum  from tb_TreeInfo a,(select Treeid,TreeName,Parentid " +
+				"from tb_TreeInfo where  TeachNum='"+tnum+"' and Depth=2 and TreeName='任务区') b " +
+				"where a.Treeid = b.Parentid and b.Treeid> " +id ;
+		try {
+			connSql .openSQL();	
+			ResultSet rs=connSql.executeQuery(sql);
+			if(rs.next()){
+				ArrayList<TreeInfo> lists=new ArrayList();
+				TreeInfo c;
+				do {
+					c = new TreeInfo(rs.getInt("Treeid"),rs.getString("CourNum") ,rs.getString("TreeName"));
+					lists.add(c);
+				} while (rs.next());
+				return lists;
+			}
+			
+		} catch (Exception e) {
+		}finally{
+			connSql.closeSQL();
+		}
+		return null;
+	}
+
+	public int addTaskInfo(TaskInfo taskInfo) {
+		String sql ="insert into tb_TaskInfo(TeachNum,TaskTitle,TaskRequire,YorNSub,YorNVis,TaskUrl,[File],Video,Annex,TaskTime,EndTime,Treeid,IsStuDown,IsShowResult)" +
+					" values('"+taskInfo.getTeachNum()+"','"+taskInfo.getTaskTitle()+"','"+taskInfo.getTaskRequire()+"','"+taskInfo.getYorNSub()+"','" +
+						taskInfo.getYorNVis()+"',NULL,'"+taskInfo.getFileOn()+"','"+taskInfo.getVideo()+"','"+taskInfo.getAnnex()+"','"+taskInfo.getTaskTime()+"','" +
+						taskInfo.getEndTime()+"',"+taskInfo.getTreeid()+",'"+taskInfo.getIsStuDown()+"','"+taskInfo.getIsShowResult()+"');" +
+								"select top 1 TaskNum from tb_TaskInfo order by TaskNum desc";
+		try {
+			connSql .openSQL();	
+			ResultSet rs= connSql.executeQuery(sql);
+			if (rs.next()) {
+				return rs.getInt("TaskNum") ;
+			}
+
+		} catch (Exception e) {
+		}finally{
+			connSql.closeSQL();
+		}
+		return 0;
+	}
+	
+	public Boolean delTaskInfo(int num) {
+		String sql = "delete from tb_TaskInfo where TaskNum="+num;
+		try {
+			connSql .openSQL();	
+			if (connSql.executeUpdate(sql)>0) {
+				return true;
+			}
+		} catch (Exception e) {
+		}finally{
+			connSql.closeSQL();
+		}
+		return false;
+	}
+	
+	public ArrayList<TaskInfo> getTaskInfo(int num, String tnum) {
+		String sql="select * from tb_TaskInfo where TeachNum="+tnum+" and TaskNum>"+num;
+		try {
+			connSql .openSQL();	
+			ResultSet rs=connSql.executeQuery(sql);
+			if(rs.next()){
+				ArrayList<TaskInfo> lists=new ArrayList();
+				TaskInfo taskInfo;
+				do {
+					String start=rs.getString("TaskTime");
+					String end=rs.getString("EndTime");
+					taskInfo = new TaskInfo(rs.getInt("TaskNum"),rs.getString("TeachNum"),rs.getString("TaskTitle"),rs.getString("TaskRequire"),
+							rs.getString("YorNSub"),rs.getString("YorNVis"),rs.getString("TaskUrl"),rs.getString("File"),rs.getString("Video"),
+							rs.getString("Annex"),start.substring(0, 19),end.substring(0, 19),rs.getInt("Treeid"),rs.getString("IsStuDown"),
+							rs.getString("IsShowResult"));
+					lists.add(taskInfo);
+				} while (rs.next());
+				return lists;
+			}
+		} catch (Exception e) {
+		}finally{
+			connSql.closeSQL();
+		}
+		return null;
+	}
+	
+	public Boolean updateTaskInfo(TaskInfo taskInfo) {
+		String sql = "update tb_TaskInfo set TaskTitle='"+taskInfo.getTaskTitle()+"',TaskRequire='"+taskInfo.getTaskRequire()+"',YorNSub='" +
+					taskInfo.getYorNSub()+"',YorNVis='"+taskInfo.getYorNVis()+"',[File]='"+taskInfo.getFileOn()+"',Video='"+taskInfo.getVideo()+"',Annex='" +
+					taskInfo.getAnnex()+"',EndTime='"+taskInfo.getEndTime()+"',IsStuDown='"+taskInfo.getIsStuDown()+"',IsShowResult='"+taskInfo.getIsShowResult()+
+					"' where TaskNum="+taskInfo.getTaskNum();
+		try {
+			connSql .openSQL();	
+			if (connSql.executeUpdate(sql)>0) {
+				return true;
+			}
+		} catch (Exception e) {
+		}finally{
+			connSql.closeSQL();
+		}
+		return false;
+	}
+	
+	
 }
