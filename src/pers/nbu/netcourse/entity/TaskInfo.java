@@ -16,7 +16,7 @@ public class TaskInfo {
 	private Integer Treeid;
 	private String IsStuDown;
 	private String IsShowResult;
-	
+	private String ActNum;
 	
 	public TaskInfo(Integer taskNum, String taskTitle, String taskRequire,
 			String yorNSub, String yorNVis, String fileOn, String video,
@@ -37,7 +37,7 @@ public class TaskInfo {
 	public TaskInfo(String teachNum, String taskTitle, String taskRequire,
 			String yorNSub, String yorNVis, String fileOn,
 			String video, String annex, String taskTime, String endTime,
-			Integer treeid, String isStuDown, String isShowResult) {
+			Integer treeid, String isStuDown, String isShowResult, String actNum) {
 		super();
 		TeachNum = teachNum;
 		TaskTitle = taskTitle;
@@ -52,12 +52,13 @@ public class TaskInfo {
 		Treeid = treeid;
 		IsStuDown = isStuDown;
 		IsShowResult = isShowResult;
+		ActNum = actNum;
 	}
 	public TaskInfo(Integer taskNum, String teachNum, String taskTitle,
 			String taskRequire, String yorNSub, String yorNVis, String taskUrl,
 			String fileOn, String video, String annex, String taskTime,
 			String endTime, Integer treeid, String isStuDown,
-			String isShowResult) {
+			String isShowResult, String actNum) {
 		super();
 		TaskNum = taskNum;
 		TeachNum = teachNum;
@@ -74,6 +75,13 @@ public class TaskInfo {
 		Treeid = treeid;
 		IsStuDown = isStuDown;
 		IsShowResult = isShowResult;
+		ActNum = actNum ;
+	}
+	public String getActNum() {
+		return ActNum;
+	}
+	public void setActNum(String actNum) {
+		ActNum = actNum;
 	}
 	public Integer getTaskNum() {
 		return TaskNum;

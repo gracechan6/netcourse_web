@@ -1,5 +1,6 @@
 package pers.nbu.netcourse.action;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,7 +11,9 @@ import org.apache.struts2.json.annotations.JSON;
 import pers.nbu.netcourse.entity.ActInfo;
 import pers.nbu.netcourse.entity.AnnShow;
 import pers.nbu.netcourse.entity.AnnounInfo;
+import pers.nbu.netcourse.entity.AttendInfo;
 import pers.nbu.netcourse.entity.AttendShow;
+import pers.nbu.netcourse.entity.TaskInfo;
 import pers.nbu.netcourse.entity.TaskShow;
 import pers.nbu.netcourse.service.AnnounInfoService;
 
@@ -22,20 +25,22 @@ public class AttendAction extends ActionSupport{
 	private Integer AttendNum;
 	private String UserNum;
 	private String ip;
-	private Integer ActNum;
+	private String ActNum;
 	
-
-	public Integer getActNum() {
-		return ActNum;
-	}
-
-	public void setActNum(Integer actNum) {
-		ActNum = actNum;
-	}
-
+	private String AttdenceNum;
+	private String StatusTime;
+	private String TeachNum;
+	private Integer AttOpen;
+	private String AttdenceClass;
+	private String AttdenceWeek;
+	private String PlaceName;
+	private String Remark;
+	
 
 	private ArrayList<AttendShow> attendShowLists;
 	private ArrayList<ActInfo> actInfos ;
+	private ArrayList<AttendInfo> attendInfos ;
+	private AttendInfo attendInfo;
 	
 	/**
 	 * service
@@ -55,6 +60,61 @@ public class AttendAction extends ActionSupport{
 	 * getter  and setter
 	 * @return
 	 */
+    
+    public String getAttdenceNum() {
+		return AttdenceNum;
+	}
+	public void setAttdenceNum(String attdenceNum) {
+		AttdenceNum = attdenceNum;
+	}
+	public String getStatusTime() {
+		return StatusTime;
+	}
+	public void setStatusTime(String statusTime) {
+		StatusTime = statusTime;
+	}
+	public String getTeachNum() {
+		return TeachNum;
+	}
+	public void setTeachNum(String teachNum) {
+		TeachNum = teachNum;
+	}
+	public String getActNum() {
+		return ActNum;
+	}
+	public void setActNum(String actNum) {
+		ActNum = actNum;
+	}
+	public String getAttdenceClass() {
+		return AttdenceClass;
+	}
+	public void setAttdenceClass(String attdenceClass) {
+		AttdenceClass = attdenceClass;
+	}
+	public String getAttdenceWeek() {
+		return AttdenceWeek;
+	}
+	public void setAttdenceWeek(String attdenceWeek) {
+		AttdenceWeek = attdenceWeek;
+	}
+	public String getPlaceName() {
+		return PlaceName;
+	}
+	public void setPlaceName(String placeName) {
+		PlaceName = placeName;
+	}
+	public String getRemark() {
+		return Remark;
+	}
+	public void setRemark(String remark) {
+		Remark = remark;
+	}
+	public Integer getAttOpen() {
+		return AttOpen;
+	}
+	public void setAttOpen(Integer attOpen) {
+		AttOpen = attOpen;
+	}
     public AnnounInfoService getAnnounInfoService() {
 		return announInfoService;
 	}
@@ -146,6 +206,56 @@ public class AttendAction extends ActionSupport{
 		actInfos= announInfoService.getAct(getUserNum(),getActNum());
 		dataMap.put("success", true);
 		dataMap.put("returnData", actInfos);
+		return SUCCESS;
+	}
+	
+	/**
+	 * @return 教师端获取考勤信息
+	 */
+	public String getAttendInfo(){
+		dataMap = new HashMap<String, Object>();
+		attendInfos= announInfoService.getAttendInfo(getAttdenceNum(), getUserNum());
+		dataMap.put("success", true);
+		dataMap.put("returnData", attendInfos);
+		return SUCCESS;
+	}
+	
+	/**
+	 * @return 教师端添加考勤信息
+	 */
+	public String addAttendInfo(){
+		dataMap = new HashMap<String, Object>();
+		attendInfo = new AttendInfo(getStatusTime(),getUserNum(),getActNum(),getAttOpen(),getAttdenceClass(),getAttdenceWeek(),
+				getPlaceName(),getRemark());
+		int n=announInfoService.addAttendInfo(attendInfo);
+		dataMap.put("success", true);
+		dataMap.put("AttdenceNum", n);
+		return SUCCESS;
+	}
+	
+	/**
+	 * @return 教师端删除考勤信息
+	 */
+	public String delAttendInfo(){
+		dataMap = new HashMap<String, Object>();
+		if(announInfoService.delAttendInfo(getAttdenceNum())){
+			dataMap.put("success", true);
+		}else
+			dataMap.put("success", false);
+		return SUCCESS;
+	}
+	
+	/**
+	 * @return 教师端更新考勤信息
+	 */
+	public String updateAttendInfo() throws UnsupportedEncodingException{
+		dataMap = new HashMap<String, Object>();
+		attendInfo = new AttendInfo(getAttdenceNum(),getStatusTime(),getAttOpen(),getAttdenceClass(),getAttdenceWeek(),
+				getPlaceName(),getRemark());
+		if(announInfoService.updateAttendInfo(attendInfo)){
+			dataMap.put("success", true);
+		}else
+			dataMap.put("success", false);
 		return SUCCESS;
 	}
 	

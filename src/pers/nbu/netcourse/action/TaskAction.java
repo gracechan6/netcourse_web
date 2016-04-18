@@ -38,7 +38,14 @@ public class TaskAction extends ActionSupport{
 	private Integer Treeid;
 	private String IsStuDown;
 	private String IsShowResult;
-	
+	private String ActNum;
+
+	public String getActNum() {
+		return ActNum;
+	}
+	public void setActNum(String actNum) {
+		ActNum = actNum;
+	}
 
 	private ArrayList<TaskShow> taskShowLists;
 	private ArrayList<TaskManageShow> taskMShowLists;
@@ -228,7 +235,7 @@ public class TaskAction extends ActionSupport{
 	
 	
 	/**
-	 * @return 教师端获取公告
+	 * @return 教师端获取任务
 	 */
 	public String getTaskInfo(){
 		dataMap = new HashMap<String, Object>();
@@ -239,22 +246,22 @@ public class TaskAction extends ActionSupport{
 	}
 	
 	/**
-	 * @return 教师端添加公告
+	 * @return 教师端添加任务
 	 * @throws UnsupportedEncodingException 
 	 */
 	public String addTaskInfo() throws UnsupportedEncodingException{
 		dataMap = new HashMap<String, Object>();
 //teachNum=171123&taskTitle=gracesadasd&taskRequire=fadhhgyyy&yorNSub=True&yorNVis=False&fileOn=True&video=False&annex=False&taskTime=2015-10-12 10:33:31&endTime=2015-10-19 10:33:31&treeid=632&isStuDown=False&isShowResult=False 
 		taskInfo = new TaskInfo(getTeachNum(),getTaskTitle(),getTaskRequire(),getYorNSub(),getYorNVis(),
-				getFileOn(),getVideo(),getAnnex(),getTaskTime(),getEndTime(),getTreeid(),getIsStuDown(),getIsShowResult());
+				getFileOn(),getVideo(),getAnnex(),getTaskTime(),getEndTime(),getTreeid(),getIsStuDown(),getIsShowResult(),getActNum());
 		int n=announInfoService.addTaskInfo(taskInfo);
 		dataMap.put("success", true);
-		dataMap.put("AnnNum", n);
+		dataMap.put("TaskNum", n);
 		return SUCCESS;
 	}
 	
 	/**
-	 * @return 教师端删除公告
+	 * @return 教师端删除任务
 	 */
 	public String delTaskInfo(){
 		dataMap = new HashMap<String, Object>();
@@ -266,7 +273,7 @@ public class TaskAction extends ActionSupport{
 	}
 	
 	/**
-	 * @return 教师端更新公告
+	 * @return 教师端更新任务
 	 * @throws UnsupportedEncodingException 
 	 */
 	public String updateTaskInfo() throws UnsupportedEncodingException{

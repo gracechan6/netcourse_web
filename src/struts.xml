@@ -149,6 +149,30 @@
 			</result>
 		</action>
 		
+		<action name="getAttendInfo" class="AttendAction" method="getAttendInfo">
+			<result type="json">
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
+		<action name="delAttendInfo" class="AttendAction" method="delAttendInfo">
+			<result type="json">
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
+		<action name="updateAttendInfo" class="AttendAction" method="updateAttendInfo">
+			<result type="json">
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
+		<action name="addAttendInfo" class="AttendAction" method="addAttendInfo">
+			<result type="json">
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
 	
 	</package>
 	

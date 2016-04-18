@@ -11,6 +11,7 @@ import pers.nbu.netcourse.dao.AnnounInfoDao;
 import pers.nbu.netcourse.entity.ActInfo;
 import pers.nbu.netcourse.entity.AnnShow;
 import pers.nbu.netcourse.entity.AnnounInfo;
+import pers.nbu.netcourse.entity.AttendInfo;
 import pers.nbu.netcourse.entity.AttendShow;
 import pers.nbu.netcourse.entity.CourseShow;
 import pers.nbu.netcourse.entity.TaskInfo;
@@ -383,7 +384,7 @@ public class AnnounInfoDaoImpl extends HibernateDaoSupport implements AnnounInfo
 		return null;
 	}
 	
-	public ArrayList<ActInfo> getAct(String tnum, int id) {
+	public ArrayList<ActInfo> getAct(String tnum, String id) {
 		String sql="select b.ActNum,a.ClassName,b.CourNum from tb_YTeachClass a,( select ActNum,GroupNum,CourNum " +
 				" from tb_YTeachActivity where TeachNum='"+tnum+"'  )b where a.GroupNum=b.GroupNum and b.ActNum>"+id ;
 		try {
@@ -393,7 +394,7 @@ public class AnnounInfoDaoImpl extends HibernateDaoSupport implements AnnounInfo
 				ArrayList<ActInfo> lists=new ArrayList();
 				ActInfo c;
 				do {
-					c = new ActInfo(rs.getInt("ActNum"),rs.getString("CourNum") ,rs.getString("ClassName"));
+					c = new ActInfo(rs.getString("ActNum"),rs.getString("CourNum") ,rs.getString("ClassName"));
 					lists.add(c);
 				} while (rs.next());
 				return lists;
@@ -431,10 +432,10 @@ public class AnnounInfoDaoImpl extends HibernateDaoSupport implements AnnounInfo
 	}
 
 	public int addTaskInfo(TaskInfo taskInfo) {
-		String sql ="insert into tb_TaskInfo(TeachNum,TaskTitle,TaskRequire,YorNSub,YorNVis,TaskUrl,[File],Video,Annex,TaskTime,EndTime,Treeid,IsStuDown,IsShowResult)" +
+		String sql ="insert into tb_TaskInfo(TeachNum,TaskTitle,TaskRequire,YorNSub,YorNVis,TaskUrl,[File],Video,Annex,TaskTime,EndTime,Treeid,IsStuDown,IsShowResult,ActNum)" +
 					" values('"+taskInfo.getTeachNum()+"','"+taskInfo.getTaskTitle()+"','"+taskInfo.getTaskRequire()+"','"+taskInfo.getYorNSub()+"','" +
 						taskInfo.getYorNVis()+"',NULL,'"+taskInfo.getFileOn()+"','"+taskInfo.getVideo()+"','"+taskInfo.getAnnex()+"','"+taskInfo.getTaskTime()+"','" +
-						taskInfo.getEndTime()+"',"+taskInfo.getTreeid()+",'"+taskInfo.getIsStuDown()+"','"+taskInfo.getIsShowResult()+"');" +
+						taskInfo.getEndTime()+"',"+taskInfo.getTreeid()+",'"+taskInfo.getIsStuDown()+"','"+taskInfo.getIsShowResult()+"','"+taskInfo.getActNum()+"');" +
 								"select top 1 TaskNum from tb_TaskInfo order by TaskNum desc";
 		try {
 			connSql .openSQL();	
@@ -478,7 +479,7 @@ public class AnnounInfoDaoImpl extends HibernateDaoSupport implements AnnounInfo
 					taskInfo = new TaskInfo(rs.getInt("TaskNum"),rs.getString("TeachNum"),rs.getString("TaskTitle"),rs.getString("TaskRequire"),
 							rs.getString("YorNSub"),rs.getString("YorNVis"),rs.getString("TaskUrl"),rs.getString("File"),rs.getString("Video"),
 							rs.getString("Annex"),start.substring(0, 19),end.substring(0, 19),rs.getInt("Treeid"),rs.getString("IsStuDown"),
-							rs.getString("IsShowResult"));
+							rs.getString("IsShowResult"),rs.getString("ActNum"));
 					lists.add(taskInfo);
 				} while (rs.next());
 				return lists;
@@ -494,7 +495,7 @@ public class AnnounInfoDaoImpl extends HibernateDaoSupport implements AnnounInfo
 		String sql = "update tb_TaskInfo set TaskTitle='"+taskInfo.getTaskTitle()+"',TaskRequire='"+taskInfo.getTaskRequire()+"',YorNSub='" +
 					taskInfo.getYorNSub()+"',YorNVis='"+taskInfo.getYorNVis()+"',[File]='"+taskInfo.getFileOn()+"',Video='"+taskInfo.getVideo()+"',Annex='" +
 					taskInfo.getAnnex()+"',EndTime='"+taskInfo.getEndTime()+"',IsStuDown='"+taskInfo.getIsStuDown()+"',IsShowResult='"+taskInfo.getIsShowResult()+
-					"' where TaskNum="+taskInfo.getTaskNum();
+					"' where TaskNum="+taskInfo.getTaskNum();  
 		try {
 			connSql .openSQL();	
 			if (connSql.executeUpdate(sql)>0) {
@@ -506,6 +507,124 @@ public class AnnounInfoDaoImpl extends HibernateDaoSupport implements AnnounInfo
 		}
 		return false;
 	}
+	
+	public int addAttendInfo(AttendInfo attendInfo) {
+		String sql;
+		if(attendInfo.getPlaceName().equals("null")){
+			if(attendInfo.getRemark().equals("null"))
+				sql ="declare @attnum varchar(20);SELECT @attnum=MAX(AttdenceNum)+1 FROM TeaAttdenceAdmin;" +
+						"insert into TeaAttdenceAdmin(AttdenceNum,StatusTime,TeachNum,ActNum,AttOpen,AttdenceClass,AttdenceWeek,PlaceName,Remark) " +
+						"values(@attnum,'"+attendInfo.getStatusTime()+"','"+attendInfo.getTeachNum()+"','"+attendInfo.getActNum()+"',"+attendInfo.getAttOpen()+",'"+
+						attendInfo.getAttdenceClass()+"','" +attendInfo.getAttdenceWeek()+"',NULL,NULL);" +
+						"exec AddStuAtt '20025',@attnum;SELECT MAX(AttdenceNum) AttdenceNum FROM TeaAttdenceAdmin;";
+			else 
+				sql ="declare @attnum varchar(20);SELECT @attnum=MAX(AttdenceNum)+1 FROM TeaAttdenceAdmin;" +
+						"insert into TeaAttdenceAdmin(AttdenceNum,StatusTime,TeachNum,ActNum,AttOpen,AttdenceClass,AttdenceWeek,PlaceName,Remark) " +
+						"values(@attnum,'"+attendInfo.getStatusTime()+"','"+attendInfo.getTeachNum()+"','"+attendInfo.getActNum()+"',"+attendInfo.getAttOpen()+",'"+
+						attendInfo.getAttdenceClass()+"','" +attendInfo.getAttdenceWeek()+"',NULL,'"+attendInfo.getRemark()+"');" +
+						"exec AddStuAtt '20025',@attnum;SELECT MAX(AttdenceNum) AttdenceNum FROM TeaAttdenceAdmin;";
+		}
+		else{
+			if(attendInfo.getRemark().equals("null"))
+				sql ="declare @attnum varchar(20);SELECT @attnum=MAX(AttdenceNum)+1 FROM TeaAttdenceAdmin;" +
+						"insert into TeaAttdenceAdmin(AttdenceNum,StatusTime,TeachNum,ActNum,AttOpen,AttdenceClass,AttdenceWeek,PlaceName,Remark) " +
+						"values(@attnum,'"+attendInfo.getStatusTime()+"','"+attendInfo.getTeachNum()+"','"+attendInfo.getActNum()+"',"+attendInfo.getAttOpen()+",'"+
+						attendInfo.getAttdenceClass()+"','" +attendInfo.getAttdenceWeek()+"','默认机房',NULL);" +
+						"exec AddStuAtt '20025',@attnum;SELECT MAX(AttdenceNum) AttdenceNum FROM TeaAttdenceAdmin;";
+			else 
+				sql ="declare @attnum varchar(20);SELECT @attnum=MAX(AttdenceNum)+1 FROM TeaAttdenceAdmin;" +
+						"insert into TeaAttdenceAdmin(AttdenceNum,StatusTime,TeachNum,ActNum,AttOpen,AttdenceClass,AttdenceWeek,PlaceName,Remark) " +
+						"values(@attnum,'"+attendInfo.getStatusTime()+"','"+attendInfo.getTeachNum()+"','"+attendInfo.getActNum()+"',"+attendInfo.getAttOpen()+",'"+
+						attendInfo.getAttdenceClass()+"','" +attendInfo.getAttdenceWeek()+"','默认机房','"+attendInfo.getRemark()+"');" +
+						"exec AddStuAtt '20025',@attnum;SELECT MAX(AttdenceNum) AttdenceNum FROM TeaAttdenceAdmin;";
+		}
+		try {
+			connSql .openSQL();	
+			ResultSet rs= connSql.executeQuery(sql);
+			if (rs.next()) {
+				return rs.getInt("AttdenceNum") ;
+			}
+
+		} catch (Exception e) {
+		}finally{
+			connSql.closeSQL();
+		}
+		return 0;
+	}
+	
+	public Boolean delAttendInfo(String num) {
+		String sql = "delete from TeaAttdenceAdmin where AttdenceNum="+num;
+		try {
+			connSql .openSQL();	
+			if (connSql.executeUpdate(sql)>0) {
+				return true;
+			}
+		} catch (Exception e) {
+		}finally{
+			connSql.closeSQL();
+		}
+		return false;
+	}
+	
+	public ArrayList<AttendInfo> getAttendInfo(String num, String tnum) {
+		String sql="select * from TeaAttdenceAdmin where TeachNum="+tnum+" and AttdenceNum>"+num;
+		try {
+			connSql .openSQL();	
+			ResultSet rs=connSql.executeQuery(sql);
+			if(rs.next()){
+				ArrayList<AttendInfo> lists=new ArrayList();
+				AttendInfo attendInfo;
+				do {						
+					attendInfo = new AttendInfo(rs.getString("AttdenceNum"),rs.getString("StatusTime"),rs.getString("TeachNum"),rs.getString("ActNum"),
+							rs.getInt("AttOpen"),rs.getString("AttdenceClass"),rs.getString("AttdenceWeek"),rs.getString("PlaceName"),rs.getString("Remark"));
+					lists.add(attendInfo);
+				} while (rs.next());
+				return lists;
+			}
+		} catch (Exception e) {
+		}finally{
+			connSql.closeSQL();
+		}
+		return null;
+	}
+	
+	public Boolean updateAttendInfo(AttendInfo attendInfo) {
+		String sql;
+		if(attendInfo.getPlaceName().equals("null")){
+			if(attendInfo.getRemark().equals("null"))
+				sql ="update TeaAttdenceAdmin set StatusTime='"+attendInfo.getStatusTime()+"',AttOpen="+attendInfo.getAttOpen()+",AttdenceClass='" +
+					attendInfo.getAttdenceClass()+"',AttdenceWeek='"+attendInfo.getAttdenceWeek()+"',PlaceName=NULL,Remark=NULL"+" where " +
+							"AttdenceNum="+attendInfo.getAttdenceNum();
+			else 
+				sql ="update TeaAttdenceAdmin set StatusTime='"+attendInfo.getStatusTime()+"',AttOpen="+attendInfo.getAttOpen()+",AttdenceClass='" +
+						attendInfo.getAttdenceClass()+"',AttdenceWeek='"+attendInfo.getAttdenceWeek()+"',PlaceName=NULL,Remark='"+attendInfo.getRemark()+"' where " +
+								"AttdenceNum="+attendInfo.getAttdenceNum();
+		}
+		else{
+			if(attendInfo.getRemark().equals("null"))
+				sql ="update TeaAttdenceAdmin set StatusTime='"+attendInfo.getStatusTime()+"',AttOpen="+attendInfo.getAttOpen()+",AttdenceClass='" +
+					attendInfo.getAttdenceClass()+"',AttdenceWeek='"+attendInfo.getAttdenceWeek()+"',PlaceName='默认机房',Remark=NULL"+" where " +
+							"AttdenceNum="+attendInfo.getAttdenceNum();
+			else 
+				sql ="update TeaAttdenceAdmin set StatusTime='"+attendInfo.getStatusTime()+"',AttOpen="+attendInfo.getAttOpen()+",AttdenceClass='" +
+						attendInfo.getAttdenceClass()+"',AttdenceWeek='"+attendInfo.getAttdenceWeek()+"',PlaceName='默认机房',Remark='"+attendInfo.getRemark()+"' where " +
+								"AttdenceNum="+attendInfo.getAttdenceNum();
+		}
+		
+		try {
+			connSql .openSQL();	
+			if (connSql.executeUpdate(sql)>0) {
+				return true;
+			}
+		} catch (Exception e) {
+		}finally{
+			connSql.closeSQL();
+		}
+		return false;
+		
+	}
+	
+	
 	
 	
 }

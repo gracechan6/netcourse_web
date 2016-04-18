@@ -118,14 +118,14 @@ where a.Treeid = b.Parentid and b.Treeid>0
 select * from tb_TaskInfo where TeachNum='171123' and TaskNum>0  order by TaskNum desc
 select * from tb_TaskInfo where TeachNum=171123 and TaskNum>0
 增
-insert into tb_TaskInfo(TeachNum,TaskTitle,TaskRequire,YorNSub,YorNVis,TaskUrl,[File],Video,Annex,TaskTime,EndTime,Treeid,IsStuDown,IsShowResult) values('171123','sad','gfgf','True','True',NULL,'True','False','False','2015-10-12 10:33:31.063','2015-10-19 10:33:31.063',632,'False','False');
+insert into tb_TaskInfo(TeachNum,TaskTitle,TaskRequire,YorNSub,YorNVis,TaskUrl,[File],Video,Annex,TaskTime,EndTime,Treeid,IsStuDown,IsShowResult,ActNum) values('171123','sad','gfgf','True','True',NULL,'True','False','False','2015-10-12 10:33:31.063','2015-10-19 10:33:31.063',632,'False','False','20027');
 select top 1 TaskNum from tb_TaskInfo order by TaskNum desc
 删
 delete from tb_TaskInfo where TaskNum=118
 改
 update tb_TaskInfo set TaskTitle='fafada',TaskRequire='fsdfshgfhd',YorNSub='True',YorNVis='True',[File]='False',Video='True',Annex='False',EndTime='2015-10-20 10:33:31.063',IsStuDown='True',IsShowResult='False' where TaskNum=118
-
-
+else
+update tb_TaskInfo set ActNum='20025' where TeachNum=171123 and TaskNum>0
 --考勤 获取教学班名  ActNum,ClassName,CourNum
 select b.ActNum,a.ClassName,b.CourNum from tb_YTeachClass a,( select ActNum,GroupNum,CourNum  from tb_YTeachActivity where TeachNum='171123'  )b 
 where a.GroupNum=b.GroupNum and b.ActNum>0
@@ -134,3 +134,11 @@ where a.GroupNum=b.GroupNum and b.ActNum>0
 exec AddStuAtt '20030','1067'
 
 select * from tb_YTeacherInfo where TeachNum='171123' and TeachPws='666666'
+SELECT MAX(AttdenceNum)+1 num FROM TeaAttdenceAdmin
+查
+select * from TeaAttdenceAdmin where TeachNum='171123' and AttdenceNum>0
+增
+
+删
+delete from TeaAttdenceAdmin where AttdenceNum=118
+改

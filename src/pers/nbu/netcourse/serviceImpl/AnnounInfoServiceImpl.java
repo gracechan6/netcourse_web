@@ -8,6 +8,7 @@ import pers.nbu.netcourse.dao.AnnounInfoDao;
 import pers.nbu.netcourse.entity.ActInfo;
 import pers.nbu.netcourse.entity.AnnShow;
 import pers.nbu.netcourse.entity.AnnounInfo;
+import pers.nbu.netcourse.entity.AttendInfo;
 import pers.nbu.netcourse.entity.AttendShow;
 import pers.nbu.netcourse.entity.CourseShow;
 import pers.nbu.netcourse.entity.TaskInfo;
@@ -99,13 +100,30 @@ public class AnnounInfoServiceImpl implements AnnounInfoService{
 		return announInfoDao.updateTaskInfo(taskInfo);
 	}	
 	
-	public ArrayList<ActInfo> getAct(String tnum, int id) {
+	public ArrayList<ActInfo> getAct(String tnum, String id) {
 		return announInfoDao.getAct(tnum, id);
 	}
 	
 	public ArrayList<TreeInfo> getTree(String tnum, int id) {
 		return announInfoDao.getTree(tnum, id);
 	}
+	
+	public int addAttendInfo(AttendInfo attendInfo) {
+		return announInfoDao.addAttendInfo(attendInfo);
+	}
+	
+	public Boolean delAttendInfo(String num) {
+		return announInfoDao.delAttendInfo(num);
+	}
+	
+	public ArrayList<AttendInfo> getAttendInfo(String num, String tnum) {
+		return announInfoDao.getAttendInfo(num, tnum);
+	}
+	
+	public Boolean updateAttendInfo(AttendInfo attendInfo) {
+		return announInfoDao.updateAttendInfo(attendInfo);
+	}
+	
 	
 
 }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import pers.nbu.netcourse.entity.ActInfo;
 import pers.nbu.netcourse.entity.AnnShow;
 import pers.nbu.netcourse.entity.AnnounInfo;
+import pers.nbu.netcourse.entity.AttendInfo;
 import pers.nbu.netcourse.entity.AttendShow;
 import pers.nbu.netcourse.entity.CourseShow;
 import pers.nbu.netcourse.entity.TaskInfo;
@@ -39,10 +40,11 @@ public interface AnnounInfoService {
 	public int addTaskInfo(TaskInfo taskInfo);
 	
 	public ArrayList<TreeInfo> getTree(String tnum,int id);
-	public ArrayList<ActInfo> getAct(String tnum,int id);
+	public ArrayList<ActInfo> getAct(String tnum,String id);
 	
-	
-	
-	
+	public ArrayList<AttendInfo> getAttendInfo(String num,String tnum);
+	public Boolean delAttendInfo(String num);
+	public Boolean updateAttendInfo(AttendInfo attendInfo);
+	public int addAttendInfo(AttendInfo attendInfo);
 	
 }

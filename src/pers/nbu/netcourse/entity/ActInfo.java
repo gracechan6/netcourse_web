@@ -1,21 +1,21 @@
 package pers.nbu.netcourse.entity;
 
 public class ActInfo {
-	private Integer ActNum;
+	private String ActNum;
 	private String CourNum;
 	private String ClassName;
 	
 	
-	public ActInfo(Integer actNum, String courNum, String className) {
+	public ActInfo(String actNum, String courNum, String className) {
 		super();
 		ActNum = actNum;
 		CourNum = courNum;
 		ClassName = className;
 	}
-	public Integer getActNum() {
+	public String getActNum() {
 		return ActNum;
 	}
-	public void setActNum(Integer actNum) {
+	public void setActNum(String actNum) {
 		ActNum = actNum;
 	}
 	public String getCourNum() {
