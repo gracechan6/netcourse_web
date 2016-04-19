@@ -258,6 +258,22 @@ public class AttendAction extends ActionSupport{
 			dataMap.put("success", false);
 		return SUCCESS;
 	}
+	/**
+	 * 更新手机端本地 未结束的考勤信息
+	 * @return
+	 */
+	public String updateAndroidAttendInfo(){
+		dataMap = new HashMap<String, Object>();
+		int v=announInfoService.updateAndroidAttendInfo(getAttdenceNum());
+		if(v!=-1){
+			dataMap.put("success", true);
+			dataMap.put("AttOpen", v);
+			dataMap.put("AttdenceNum",getAttdenceNum());
+		}else {
+			dataMap.put("success", false);
+		}
+		return SUCCESS;
+	}
 	
 	
 

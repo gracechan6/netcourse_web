@@ -250,7 +250,7 @@ public class AnnounInfoDaoImpl extends HibernateDaoSupport implements AnnounInfo
 	}
 	
 	public Boolean updateServerAttend(String num, int tnum,String ip) {
-		String sql="UPDATE TeaAttdenceInfo SET Status='缺课',StuAsNum=1,ip="+ip+" WHERE StuNum="+num+ " and AttdenceNum="+tnum;
+		String sql="UPDATE TeaAttdenceInfo SET Status='已到',StuAsNum=1,ip="+ip+" WHERE StuNum="+num+ " and AttdenceNum="+tnum;
 		try {
 			connSql .openSQL();	
 			if (connSql.executeUpdate(sql)>0) {
@@ -624,7 +624,20 @@ public class AnnounInfoDaoImpl extends HibernateDaoSupport implements AnnounInfo
 		
 	}
 	
-	
-	
+	public int updateAndroidAttendInfo(String num) {
+		String sql="select AttOpen from TeaAttdenceAdmin where AttdenceNum="+num;
+		try {
+			connSql .openSQL();	
+			ResultSet rs=connSql.executeQuery(sql);
+			if(rs.next()){
+				return rs.getInt("AttOpen");
+			}
+		} catch (Exception e) {
+		}finally{
+			connSql.closeSQL();
+		}
+		return -1;
+	}
+		
 	
 }

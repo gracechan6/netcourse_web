@@ -124,6 +124,8 @@ public class AnnounInfoServiceImpl implements AnnounInfoService{
 		return announInfoDao.updateAttendInfo(attendInfo);
 	}
 	
-	
+	public int updateAndroidAttendInfo(String num) {
+		return announInfoDao.updateAndroidAttendInfo(num);
+	}
 
 }

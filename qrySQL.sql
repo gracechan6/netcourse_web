@@ -59,10 +59,12 @@ from TeaStatus, tb_YTeachActivity ,TeaAttdenceAdmin,TeaAttdenceInfo,tb_YTeacherI
 where tb_YTeachActivity.ActNum=TeaAttdenceAdmin.ActNum and TeaAttdenceAdmin.AttOpen =TeaStatus.AttOpen 
 and TeaAttdenceAdmin.AttdenceNum=TeaAttdenceInfo.AttdenceNum and tb_YTeacherInfo.TeachNum=TeaAttdenceAdmin.TeachNum  
 and tb_YCourseInfo.CourNum=tb_YTeachActivity.CourNum  and TeaAttdenceAdmin.AttdenceClass<>'课堂考勤'  
-and TeaAttdenceInfo.StuNum='0001'  and TeaStatus.StaName<>'未开始考勤' and TeaAttdenceInfo.AttdenceNum=1004
+and TeaAttdenceInfo.StuNum='0001'  and TeaStatus.StaName<>'未开始考勤' 
 order by AttdenceNum asc
 
 //学生考勤签到  手机端只要传 StuNum和AttdenceNum  ip即可
+UPDATE TeaAttdenceInfo SET Status='缺课',StuAsNum=0,ip='mobile' WHERE StuNum='0001' and AttdenceNum='1007'
+
 UPDATE TeaAttdenceInfo SET Status='缺课',StuAsNum=0,ip='mobile' WHERE StuNum='0001' and AttdenceNum='1007'
 
 //考勤测试
@@ -131,14 +133,29 @@ select b.ActNum,a.ClassName,b.CourNum from tb_YTeachClass a,( select ActNum,Grou
 where a.GroupNum=b.GroupNum and b.ActNum>0
 
 //教师发布出勤后 学生缺课记录添加
+--ActNum,AttdenceNum
 exec AddStuAtt '20030','1067'
 
 select * from tb_YTeacherInfo where TeachNum='171123' and TeachPws='666666'
 SELECT MAX(AttdenceNum)+1 num FROM TeaAttdenceAdmin
 查
-select * from TeaAttdenceAdmin where TeachNum='171123' and AttdenceNum>0
-增
+select * from TeaAttdenceAdmin where TeachNum='171123' and AttdenceNum>0 
 
+select * from TeaAttdenceAdmin where TeachNum='171123' and AttdenceNum>0 order by AttdenceNum desc
+
+select * from TeaAttdenceAdmin where TeachNum='171123' and AttOpen<>2
+
+select AttOpen from TeaAttdenceAdmin where AttdenceNum=1008
+
+select * from TeaAttdenceInfo where AttdenceNum=1008
+增
+declare @attnum varchar(20);SELECT @attnum=MAX(AttdenceNum)+1 FROM TeaAttdenceAdmin;insert into TeaAttdenceAdmin(AttdenceNum,StatusTime,TeachNum,ActNum,AttOpen,AttdenceClass,AttdenceWeek,PlaceName,Remark) values(@attnum,'2015-10-20 10:33:31','171123','20025',1,'机房考勤','第十二周','默认机房',NULL);exec AddStuAtt '20025',@attnum;SELECT MAX(AttdenceNum) AttdenceNum FROM TeaAttdenceAdmin;
 删
-delete from TeaAttdenceAdmin where AttdenceNum=118
+delete from TeaAttdenceAdmin where AttdenceNum=1014
 改
+update TeaAttdenceAdmin set StatusTime='2015-10-22 10:33:31',AttOpen=2,AttdenceClass='课堂考勤',AttdenceWeek='第七周',PlaceName=NULL,Remark='fgd' where AttdenceNum=1010
+
+declare @attnum varchar(20);
+SELECT @attnum=MAX(AttdenceNum)+1 FROM TeaAttdenceAdmin;
+insert into TeaAttdenceAdmin(AttdenceNum,StatusTime,TeachNum,ActNum,AttOpen,AttdenceClass,AttdenceWeek,PlaceName,Remark) 
+values(@attnum,'2016-04-19 11:56:37','null','20025',0,'机房考勤','第十四周','默认机房',NULL);exec AddStuAtt '20025',@attnum;SELECT MAX(AttdenceNum) AttdenceNum FROM TeaAttdenceAdmin;

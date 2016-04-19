@@ -48,4 +48,6 @@ public interface AnnounInfoDao {
 	public Boolean updateAttendInfo(AttendInfo attendInfo);
 	public int addAttendInfo(AttendInfo attendInfo);
 	
+	public int updateAndroidAttendInfo(String num);
+	
 }

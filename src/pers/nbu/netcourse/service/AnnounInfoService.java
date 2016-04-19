@@ -46,5 +46,6 @@ public interface AnnounInfoService {
 	public Boolean delAttendInfo(String num);
 	public Boolean updateAttendInfo(AttendInfo attendInfo);
 	public int addAttendInfo(AttendInfo attendInfo);
+	public int updateAndroidAttendInfo(String num);
 	
 }

@@ -173,6 +173,12 @@
 			</result>
 		</action>
 		
+		<action name="updateAndroidAttendInfo" class="AttendAction" method="updateAndroidAttendInfo">
+			<result type="json">
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
 	
 	</package>
 	
