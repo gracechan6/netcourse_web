@@ -432,9 +432,9 @@ public class AnnounInfoDaoImpl extends HibernateDaoSupport implements AnnounInfo
 	}
 
 	public int addTaskInfo(TaskInfo taskInfo) {
-		String sql ="insert into tb_TaskInfo(TeachNum,TaskTitle,TaskRequire,YorNSub,YorNVis,TaskUrl,[File],Video,Annex,TaskTime,EndTime,Treeid,IsStuDown,IsShowResult,ActNum)" +
+		String sql ="insert into tb_TaskInfo(TeachNum,TaskTitle,TaskRequire,YorNSub,YorNVis,TaskUrl,IsPublic,[File],Video,Annex,TaskTime,EndTime,Treeid,IsStuDown,IsShowResult,ActNum)" +
 					" values('"+taskInfo.getTeachNum()+"','"+taskInfo.getTaskTitle()+"','"+taskInfo.getTaskRequire()+"','"+taskInfo.getYorNSub()+"','" +
-						taskInfo.getYorNVis()+"',NULL,'"+taskInfo.getFileOn()+"','"+taskInfo.getVideo()+"','"+taskInfo.getAnnex()+"','"+taskInfo.getTaskTime()+"','" +
+						taskInfo.getYorNVis()+"',NULL,'NoPub','"+taskInfo.getFileOn()+"','"+taskInfo.getVideo()+"','"+taskInfo.getAnnex()+"','"+taskInfo.getTaskTime()+"','" +
 						taskInfo.getEndTime()+"',"+taskInfo.getTreeid()+",'"+taskInfo.getIsStuDown()+"','"+taskInfo.getIsShowResult()+"','"+taskInfo.getActNum()+"');" +
 								"select top 1 TaskNum from tb_TaskInfo order by TaskNum desc";
 		try {
