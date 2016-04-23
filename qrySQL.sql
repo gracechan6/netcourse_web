@@ -48,7 +48,7 @@ CourName,TeachName,AttdenceWeek,StatusTime,StaName,Status,AttdenceClass
 from TeaStatus, tb_YTeachActivity ,TeaAttdenceAdmin,TeaAttdenceInfo,tb_YTeacherInfo,tb_YCourseInfo  
 where tb_YTeachActivity.ActNum=TeaAttdenceAdmin.ActNum and TeaAttdenceAdmin.AttOpen =TeaStatus.AttOpen 
 and TeaAttdenceAdmin.AttdenceNum=TeaAttdenceInfo.AttdenceNum and tb_YTeacherInfo.TeachNum=TeaAttdenceAdmin.TeachNum  
-and tb_YCourseInfo.CourNum=tb_YTeachActivity.CourNum  and TeaAttdenceAdmin.AttdenceClass<>'课堂考勤'  
+and tb_YCourseInfo.CourNum=tb_YTeachActivity.CourNum    
 and TeaAttdenceInfo.StuNum='0001'  and TeaStatus.StaName<>'未开始考勤' and TeaAttdenceInfo.AttdenceNum>0
 order by AttdenceNum asc
 
@@ -58,8 +58,8 @@ CourName,TeachName,AttdenceWeek,StatusTime,StaName,Status,AttdenceClass,ip
 from TeaStatus, tb_YTeachActivity ,TeaAttdenceAdmin,TeaAttdenceInfo,tb_YTeacherInfo,tb_YCourseInfo  
 where tb_YTeachActivity.ActNum=TeaAttdenceAdmin.ActNum and TeaAttdenceAdmin.AttOpen =TeaStatus.AttOpen 
 and TeaAttdenceAdmin.AttdenceNum=TeaAttdenceInfo.AttdenceNum and tb_YTeacherInfo.TeachNum=TeaAttdenceAdmin.TeachNum  
-and tb_YCourseInfo.CourNum=tb_YTeachActivity.CourNum  and TeaAttdenceAdmin.AttdenceClass<>'课堂考勤'  
-and TeaAttdenceInfo.StuNum='0001'  and TeaStatus.StaName<>'未开始考勤' 
+and tb_YCourseInfo.CourNum=tb_YTeachActivity.CourNum   
+and TeaAttdenceInfo.StuNum='0001'  and TeaStatus.StaName<>'未开始考勤' and TeaAttdenceInfo.AttdenceNum=1001
 order by AttdenceNum asc
 
 //学生考勤签到  手机端只要传 StuNum和AttdenceNum  ip即可
@@ -147,7 +147,7 @@ select * from TeaAttdenceAdmin where TeachNum='171123' and AttOpen<>2
 
 select AttOpen from TeaAttdenceAdmin where AttdenceNum=1008
 
-select * from TeaAttdenceInfo where AttdenceNum=1008
+select * from TeaAttdenceInfo where AttdenceNum=1019
 增
 declare @attnum varchar(20);SELECT @attnum=MAX(AttdenceNum)+1 FROM TeaAttdenceAdmin;insert into TeaAttdenceAdmin(AttdenceNum,StatusTime,TeachNum,ActNum,AttOpen,AttdenceClass,AttdenceWeek,PlaceName,Remark) values(@attnum,'2015-10-20 10:33:31','171123','20025',1,'机房考勤','第十二周','默认机房',NULL);exec AddStuAtt '20025',@attnum;SELECT MAX(AttdenceNum) AttdenceNum FROM TeaAttdenceAdmin;
 删

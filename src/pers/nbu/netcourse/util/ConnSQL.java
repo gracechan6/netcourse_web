@@ -58,12 +58,12 @@ public class ConnSQL {
 	 */
 	public void openSQL() {
 		String JDriver="com.microsoft.sqlserver.jdbc.SQLServerDriver";
-		String connectDB = "jdbc:sqlserver://127.0.0.1:1433;databaseName=AIOC";
+		String connectDB = "jdbc:sqlserver://10.22.152.109:1433;databaseName=AIOC";
 		try {
 			Class.forName(JDriver);
 		} 
 		catch (ClassNotFoundException e) {
-			System.out.println("连接失败");
+			System.out.println("连接失败1");
 			System.exit(0);
 		}
 		try {
@@ -72,13 +72,13 @@ public class ConnSQL {
 			stmt = con.createStatement();
 		} 
 		catch (SQLException e) {
-			System.out.println("连接失败");
+			System.out.println("连接失败2");
 		}
 	}
 	
 	
 	/**
-	 * ִ��SQL���
+	 * 执行sql数据
 	 */
 	public void execute(String SQL) {
 		try {

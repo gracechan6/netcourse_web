@@ -213,7 +213,7 @@ public class AnnounInfoDaoImpl extends HibernateDaoSupport implements AnnounInfo
 				"from TeaStatus, tb_YTeachActivity ,TeaAttdenceAdmin,TeaAttdenceInfo,tb_YTeacherInfo,tb_YCourseInfo " +
 				"where tb_YTeachActivity.ActNum=TeaAttdenceAdmin.ActNum and TeaAttdenceAdmin.AttOpen =TeaStatus.AttOpen " +
 				"and TeaAttdenceAdmin.AttdenceNum=TeaAttdenceInfo.AttdenceNum and tb_YTeacherInfo.TeachNum=TeaAttdenceAdmin.TeachNum " +
-				"and tb_YCourseInfo.CourNum=tb_YTeachActivity.CourNum  and TeaAttdenceAdmin.AttdenceClass<>'课堂考勤'  " +
+				"and tb_YCourseInfo.CourNum=tb_YTeachActivity.CourNum  " +
 				"and TeaAttdenceInfo.StuNum="+num+"  and TeaStatus.StaName<>'未开始考勤' and TeaAttdenceInfo.AttdenceNum> " +tnum+
 				" order by AttdenceNum asc";
 		
@@ -234,7 +234,7 @@ public class AnnounInfoDaoImpl extends HibernateDaoSupport implements AnnounInfo
 				"from TeaStatus, tb_YTeachActivity ,TeaAttdenceAdmin,TeaAttdenceInfo,tb_YTeacherInfo,tb_YCourseInfo " +
 				"where tb_YTeachActivity.ActNum=TeaAttdenceAdmin.ActNum and TeaAttdenceAdmin.AttOpen =TeaStatus.AttOpen " +
 				"and TeaAttdenceAdmin.AttdenceNum=TeaAttdenceInfo.AttdenceNum and tb_YTeacherInfo.TeachNum=TeaAttdenceAdmin.TeachNum " +
-				"and tb_YCourseInfo.CourNum=tb_YTeachActivity.CourNum  and TeaAttdenceAdmin.AttdenceClass<>'课堂考勤'  " +
+				"and tb_YCourseInfo.CourNum=tb_YTeachActivity.CourNum   " +
 				"and TeaAttdenceInfo.StuNum="+num+"  and TeaStatus.StaName<>'未开始考勤' and TeaAttdenceInfo.AttdenceNum= " +tnum+
 				" order by AttdenceNum asc";
 		
@@ -309,8 +309,8 @@ public class AnnounInfoDaoImpl extends HibernateDaoSupport implements AnnounInfo
 	}
 	
 	public int addAnn(AnnounInfo announInfo) {
-		String sql = "insert into tb_AnnounInfo (AnnTitle,AnnCon,AnnUrl,AnnTime,TeachNum,Treeid,AnnType) values ('" +
-				announInfo.getAnnTitle() +"','"+announInfo.getAnnCon()+"',NULL,'"+announInfo.getAnnTime()+"','"+announInfo.getTeachNum()+"',"+
+		String sql = "insert into tb_AnnounInfo (AnnTitle,AnnCon,AnnUrl,TreeType,AnnTime,TeachNum,Treeid,AnnType) values ('" +
+				announInfo.getAnnTitle() +"','"+announInfo.getAnnCon()+"',NULL,'Pra','"+announInfo.getAnnTime()+"','"+announInfo.getTeachNum()+"',"+
 				announInfo.getTreeid()+",'"+announInfo.getAnnType() +
 				"');select top 1 AnnNum from tb_AnnounInfo order by AnnNum desc";
 		try {
@@ -432,9 +432,9 @@ public class AnnounInfoDaoImpl extends HibernateDaoSupport implements AnnounInfo
 	}
 
 	public int addTaskInfo(TaskInfo taskInfo) {
-		String sql ="insert into tb_TaskInfo(TeachNum,TaskTitle,TaskRequire,YorNSub,YorNVis,TaskUrl,IsPublic,[File],Video,Annex,TaskTime,EndTime,Treeid,IsStuDown,IsShowResult,ActNum)" +
+		String sql ="insert into tb_TaskInfo(TeachNum,TaskTitle,TaskRequire,YorNSub,YorNVis,TaskUrl,IsPublic,TreeType,[File],Video,Annex,TaskTime,EndTime,Treeid,IsStuDown,IsShowResult,ActNum)" +
 					" values('"+taskInfo.getTeachNum()+"','"+taskInfo.getTaskTitle()+"','"+taskInfo.getTaskRequire()+"','"+taskInfo.getYorNSub()+"','" +
-						taskInfo.getYorNVis()+"',NULL,'NoPub','"+taskInfo.getFileOn()+"','"+taskInfo.getVideo()+"','"+taskInfo.getAnnex()+"','"+taskInfo.getTaskTime()+"','" +
+						taskInfo.getYorNVis()+"',NULL,'NoPub','Pra','"+taskInfo.getFileOn()+"','"+taskInfo.getVideo()+"','"+taskInfo.getAnnex()+"','"+taskInfo.getTaskTime()+"','" +
 						taskInfo.getEndTime()+"',"+taskInfo.getTreeid()+",'"+taskInfo.getIsStuDown()+"','"+taskInfo.getIsShowResult()+"','"+taskInfo.getActNum()+"');" +
 								"select top 1 TaskNum from tb_TaskInfo order by TaskNum desc";
 		try {
