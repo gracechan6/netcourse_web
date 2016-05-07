@@ -516,13 +516,13 @@ public class AnnounInfoDaoImpl extends HibernateDaoSupport implements AnnounInfo
 						"insert into TeaAttdenceAdmin(AttdenceNum,StatusTime,TeachNum,ActNum,AttOpen,AttdenceClass,AttdenceWeek,PlaceName,Remark) " +
 						"values(@attnum,'"+attendInfo.getStatusTime()+"','"+attendInfo.getTeachNum()+"','"+attendInfo.getActNum()+"',"+attendInfo.getAttOpen()+",'"+
 						attendInfo.getAttdenceClass()+"','" +attendInfo.getAttdenceWeek()+"',NULL,NULL);" +
-						"exec AddStuAtt '20025',@attnum;SELECT MAX(AttdenceNum) AttdenceNum FROM TeaAttdenceAdmin;";
+						"exec AddStuAtt '"+attendInfo.getActNum()+"',@attnum;SELECT MAX(AttdenceNum) AttdenceNum FROM TeaAttdenceAdmin;";
 			else 
 				sql ="declare @attnum varchar(20);SELECT @attnum=MAX(AttdenceNum)+1 FROM TeaAttdenceAdmin;" +
 						"insert into TeaAttdenceAdmin(AttdenceNum,StatusTime,TeachNum,ActNum,AttOpen,AttdenceClass,AttdenceWeek,PlaceName,Remark) " +
 						"values(@attnum,'"+attendInfo.getStatusTime()+"','"+attendInfo.getTeachNum()+"','"+attendInfo.getActNum()+"',"+attendInfo.getAttOpen()+",'"+
 						attendInfo.getAttdenceClass()+"','" +attendInfo.getAttdenceWeek()+"',NULL,'"+attendInfo.getRemark()+"');" +
-						"exec AddStuAtt '20025',@attnum;SELECT MAX(AttdenceNum) AttdenceNum FROM TeaAttdenceAdmin;";
+						"exec AddStuAtt '"+attendInfo.getActNum()+"',@attnum;SELECT MAX(AttdenceNum) AttdenceNum FROM TeaAttdenceAdmin;";
 		}
 		else{
 			if(attendInfo.getRemark().equals("null"))
@@ -530,13 +530,13 @@ public class AnnounInfoDaoImpl extends HibernateDaoSupport implements AnnounInfo
 						"insert into TeaAttdenceAdmin(AttdenceNum,StatusTime,TeachNum,ActNum,AttOpen,AttdenceClass,AttdenceWeek,PlaceName,Remark) " +
 						"values(@attnum,'"+attendInfo.getStatusTime()+"','"+attendInfo.getTeachNum()+"','"+attendInfo.getActNum()+"',"+attendInfo.getAttOpen()+",'"+
 						attendInfo.getAttdenceClass()+"','" +attendInfo.getAttdenceWeek()+"','默认机房',NULL);" +
-						"exec AddStuAtt '20025',@attnum;SELECT MAX(AttdenceNum) AttdenceNum FROM TeaAttdenceAdmin;";
+						"exec AddStuAtt '"+attendInfo.getActNum()+"',@attnum;SELECT MAX(AttdenceNum) AttdenceNum FROM TeaAttdenceAdmin;";
 			else 
 				sql ="declare @attnum varchar(20);SELECT @attnum=MAX(AttdenceNum)+1 FROM TeaAttdenceAdmin;" +
 						"insert into TeaAttdenceAdmin(AttdenceNum,StatusTime,TeachNum,ActNum,AttOpen,AttdenceClass,AttdenceWeek,PlaceName,Remark) " +
 						"values(@attnum,'"+attendInfo.getStatusTime()+"','"+attendInfo.getTeachNum()+"','"+attendInfo.getActNum()+"',"+attendInfo.getAttOpen()+",'"+
 						attendInfo.getAttdenceClass()+"','" +attendInfo.getAttdenceWeek()+"','默认机房','"+attendInfo.getRemark()+"');" +
-						"exec AddStuAtt '20025',@attnum;SELECT MAX(AttdenceNum) AttdenceNum FROM TeaAttdenceAdmin;";
+						"exec AddStuAtt '"+attendInfo.getActNum()+"',@attnum;SELECT MAX(AttdenceNum) AttdenceNum FROM TeaAttdenceAdmin;";
 		}
 		try {
 			connSql .openSQL();	

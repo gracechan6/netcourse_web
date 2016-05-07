@@ -38,7 +38,6 @@
 		<property name="mappingResources">
 			<list>
 			<!-- 用户库实体bean的映射配置 -->
-			<value>pers/nbu/netcourse/entity/AnnounInfo.hbm.xml</value>
 			</list>
 		</property>
 		
@@ -86,6 +85,10 @@
 	</bean>	
 	
 	<bean id="UserAction" class="pers.nbu.netcourse.action.UserAction" scope="prototype">
+		<property name="announInfoService" ref="AnnounInfoService" />
+	</bean>	
+	
+	<bean id="AttendAction" class="pers.nbu.netcourse.action.AttendAction" scope="prototype">
 		<property name="announInfoService" ref="AnnounInfoService" />
 	</bean>	
 	

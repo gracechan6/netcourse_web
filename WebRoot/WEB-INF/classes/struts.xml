@@ -32,12 +32,153 @@
 			</result>
 		</action>
 		
+		<action name="getAllTaskManage" class="TaskAction" method="getAllTaskManage">
+			<result type="json">
+			<!-- 这里指定将被Struts2序列化的属性，该属性在action中必须有对应的getter方法 -->
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
+		<action name="updateTaskManage" class="TaskAction" method="updateTaskManage">
+			<result type="json">
+			<!-- 这里指定将被Struts2序列化的属性，该属性在action中必须有对应的getter方法 -->
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
+		<action name="getAttend" class="AttendAction" method="getAttend">
+			<result type="json">
+			<!-- 这里指定将被Struts2序列化的属性，该属性在action中必须有对应的getter方法 -->
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
+		<action name="updateServerAttend" class="AttendAction" method="updateServerAttend">
+			<result type="json">
+			<!-- 这里指定将被Struts2序列化的属性，该属性在action中必须有对应的getter方法 -->
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
+		<action name="updateAttend" class="AttendAction" method="updateAttend">
+			<result type="json">
+			<!-- 这里指定将被Struts2序列化的属性，该属性在action中必须有对应的getter方法 -->
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
 		<action name="loginVaild" class="UserAction" method="loginVaild">
 			<result type="json">
 			<!-- 这里指定将被Struts2序列化的属性，该属性在action中必须有对应的getter方法 -->
 				<param name="root">dataMap</param>
 			</result>
 		</action>
+		
+		<!-- 教师端 -->
+		<action name="loginVaildT" class="UserAction" method="loginVaildT">
+			<result type="json">
+			<!-- 这里指定将被Struts2序列化的属性，该属性在action中必须有对应的getter方法 -->
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
+		<action name="getAnn" class="AnnounInfoAction" method="getAnn">
+			<result type="json">
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
+		<action name="delAnn" class="AnnounInfoAction" method="delAnn">
+			<result type="json">
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
+		<action name="updateAnn" class="AnnounInfoAction" method="updateAnn">
+			<result type="json">
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
+		<action name="addAnn" class="AnnounInfoAction" method="addAnn">
+			<result type="json">
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
+		<action name="getCourse" class="AnnounInfoAction" method="getCourse">
+			<result type="json">
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
+		
+		<action name="getTaskInfo" class="TaskAction" method="getTaskInfo">
+			<result type="json">
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
+		<action name="delTaskInfo" class="TaskAction" method="delTaskInfo">
+			<result type="json">
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
+		<action name="updateTaskInfo" class="TaskAction" method="updateTaskInfo">
+			<result type="json">
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
+		<action name="addTaskInfo" class="TaskAction" method="addTaskInfo">
+			<result type="json">
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
+		<action name="getTree" class="TaskAction" method="getTree">
+			<result type="json">
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
+		<action name="getAct" class="AttendAction" method="getAct">
+			<result type="json">
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
+		<action name="getAttendInfo" class="AttendAction" method="getAttendInfo">
+			<result type="json">
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
+		<action name="delAttendInfo" class="AttendAction" method="delAttendInfo">
+			<result type="json">
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
+		<action name="updateAttendInfo" class="AttendAction" method="updateAttendInfo">
+			<result type="json">
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
+		<action name="addAttendInfo" class="AttendAction" method="addAttendInfo">
+			<result type="json">
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
+		<action name="updateAndroidAttendInfo" class="AttendAction" method="updateAndroidAttendInfo">
+			<result type="json">
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
 	
 	</package>
 	

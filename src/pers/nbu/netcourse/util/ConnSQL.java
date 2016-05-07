@@ -9,7 +9,7 @@ import java.sql.Statement;
 public class ConnSQL {
 
 	private String user = "sa";
-	private String password = "123456";
+	private String password = "Kjxy123456";
 	private Statement stmt = null;
 	private Connection con = null;
 	
@@ -58,7 +58,7 @@ public class ConnSQL {
 	 */
 	public void openSQL() {
 		String JDriver="com.microsoft.sqlserver.jdbc.SQLServerDriver";
-		String connectDB = "jdbc:sqlserver://10.22.152.109:1433;databaseName=AIOC";
+		String connectDB = "jdbc:sqlserver://127.0.0.1:1433;databaseName=AIOC";
 		try {
 			Class.forName(JDriver);
 		} 
